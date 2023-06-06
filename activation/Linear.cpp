@@ -11,5 +11,5 @@ double Linear::f(double x)
 
 double Linear::df(double x)
 {
-    return x;
+    return 1.0;
 }
