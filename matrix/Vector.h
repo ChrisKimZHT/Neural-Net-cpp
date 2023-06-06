@@ -12,6 +12,8 @@ class Vector : public Matrix
 public:
     Vector() = default;
     explicit Vector(int dimension, double val = 0);
+    double &get(int idx);
+    [[nodiscard]] double get(int idx) const;
 };
 
 

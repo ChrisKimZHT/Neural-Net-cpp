@@ -23,7 +23,9 @@ int main()
     c.print();
 
     Vector d(3, 2);
+    d.get(1) = 4;
     Matrix e = a * d;
     e.print();
+
     return 0;
 }
