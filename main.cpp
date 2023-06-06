@@ -5,6 +5,7 @@
 #include "matrix/Matrix.h"
 #include "matrix/Vector.h"
 #include "loss/MeanSquaredError.h"
+#include "ann/Layer.h"
 
 int main()
 {
@@ -42,5 +43,10 @@ int main()
     Vector dans = MeanSquaredError().df(x, y);
     std::cout << ans << std::endl;
     dans.print();
+
+    Sigmoid sigmoid;
+    Layer layer = Layer(3, sigmoid);
+    std::cout << layer.activation_function.f(-1) << std::endl;
+
     return 0;
 }
