@@ -7,6 +7,7 @@
 #include <utility>
 #include <chrono>
 #include <algorithm>
+#include <iomanip>
 
 void CompiledModel::rand_matrix(Matrix &matrix)
 {
@@ -167,19 +168,24 @@ void CompiledModel::update_parameters()
 
 void CompiledModel::fit(std::vector<std::pair<Matrix, Matrix>> &input, int epochs)
 {
+    int data_size = int(input.size());
     for (int e = 0; e < epochs; e++)
     {
         double epoch_loss = 0.0;
-        std::cout << "Epoch " << e + 1 << std::endl;
-
+        std::cout << "[Epoch " << e + 1 << "/" << epochs << "]\n";
         std::shuffle(input.begin(), input.end(), mtgen);
-        int cnt = 0;
+        int cnt_in_batch = 0, cnt_in_all = 0;
         for (auto &[data, label]: input)
         {
-            cnt++;
+            cnt_in_batch++;
+            cnt_in_all++;
             predict(data);
             calc_loss(label);
-
+            epoch_loss = epoch_loss * cnt_in_all / (cnt_in_all + 1) + loss / (cnt_in_all + 1);
+            std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+                      << std::right << std::setw(8) << cnt_in_all << "/" <<
+                      std::left << std::setw(8) << data_size
+                      << "loss: " << std::left << std::setw(8) << epoch_loss << std::flush;
             back_propagation();
 
             for (int i = 0; i < layers.size(); i++)
@@ -188,21 +194,23 @@ void CompiledModel::fit(std::vector<std::pair<Matrix, Matrix>> &input, int epoch
                 delta_biases[i] += temp_biases[i];
             }
 
-            if (cnt == batch_size)
+            if (cnt_in_batch == batch_size)
             {
                 for (auto &delta_weight: delta_weights)
                     delta_weight /= batch_size;
                 update_parameters();
-                cnt = 0;
+                cnt_in_batch = 0;
             }
         }
 
-        if (cnt != 0)
+        if (cnt_in_batch != 0)
         {
             for (auto &delta_weight: delta_weights)
-                delta_weight /= cnt;
+                delta_weight /= cnt_in_batch;
             update_parameters();
         }
+
+        std::cout << std::endl;
     }
 }
 
