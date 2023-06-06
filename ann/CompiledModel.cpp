@@ -43,9 +43,9 @@ CompiledModel::CompiledModel(int input_dim,
           layers(std::move(layers))
 {
     // Check the number of layers
-    if (this->layers.size() <= 2)
+    if (this->layers.size() < 2)
     {
-        std::cerr << "The number of layers should be greater than 2." << std::endl;
+        std::cerr << "The number of layers should be greater than 1." << std::endl;
         exit(1);
     }
 
@@ -169,15 +169,17 @@ void CompiledModel::fit(std::vector<std::pair<Matrix, Matrix>> &input, int epoch
 {
     for (int e = 0; e < epochs; e++)
     {
+        double epoch_loss = 0.0;
         std::cout << "Epoch " << e + 1 << std::endl;
-        std::shuffle(input.begin(), input.end(), mtgen);
 
+        std::shuffle(input.begin(), input.end(), mtgen);
         int cnt = 0;
         for (auto &[data, label]: input)
         {
             cnt++;
             predict(data);
             calc_loss(label);
+
             back_propagation();
 
             for (int i = 0; i < layers.size(); i++)
