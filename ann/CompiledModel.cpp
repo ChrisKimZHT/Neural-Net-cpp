@@ -6,6 +6,7 @@
 #include <iostream>
 #include <utility>
 #include <chrono>
+#include <algorithm>
 
 void CompiledModel::rand_matrix(Matrix &matrix)
 {
@@ -54,6 +55,7 @@ CompiledModel::CompiledModel(int input_dim,
     auto timestamp = now_sec.time_since_epoch().count();
     generator = std::default_random_engine(timestamp);
     distribution = std::normal_distribution<double>(0.0, 1.0);
+    mtgen = std::mt19937(rd());
 
     // Initialize vectors
     activation_functions = std::vector<ActivationFunction *>();
@@ -84,6 +86,9 @@ CompiledModel::CompiledModel(int input_dim,
         activated_outputs.emplace_back(layer.size, 1);
         last_layer_size = layer.size;
     }
+    current_input = Matrix(input_dim, 1);
+    loss = 0.0;
+    d_loss = Matrix(last_layer_size, 1);
 }
 
 Matrix CompiledModel::predict(Matrix &data)
@@ -95,6 +100,8 @@ Matrix CompiledModel::predict(Matrix &data)
         exit(1);
     }
 
+    current_input = data;
+
     Matrix res = data;
     for (int i = 0; i < layers.size(); i++)
     {
@@ -104,5 +111,96 @@ Matrix CompiledModel::predict(Matrix &data)
     }
 
     return res;
+}
+
+void CompiledModel::calc_loss(Matrix &labels)
+{
+    loss = loss_function.f(labels, activated_outputs.back());
+    d_loss = loss_function.df(labels, activated_outputs.back());
+}
+
+void CompiledModel::back_propagation()
+{
+    Matrix d_layer_loss = d_loss;
+    for (int i = int(layers.size()) - 1; i >= 0; i--)
+    {
+        int prev_layer_size = i == 0 ? input_dim : layers[i - 1].size;
+        for (int j = 0; j < biases[i].height(); j++)
+        {
+            temp_biases[i][j][0] = d_layer_loss[j][0] * activation_functions[i]->df(outputs[i][j][0]);
+            for (int k = 0; k < prev_layer_size; k++)
+            {
+                double prev_activated_output = i == 0 ? current_input[k][0] : activated_outputs[i - 1][k][0];
+                temp_weights[i][j][k] = temp_biases[i][j][0] * prev_activated_output;
+            }
+        }
+        if (i == 0)
+            break;
+        Matrix new_d_layer_loss = Matrix(prev_layer_size, 1);
+        for (int j = 0; j < prev_layer_size; j++)
+        {
+            for (int k = 0; k < layers[i].size; k++)
+            {
+                new_d_layer_loss[j][0] += weights[i][k][j] *
+                                          activation_functions[i]->df(outputs[i][k][0]) *
+                                          d_layer_loss[k][0];
+            }
+        }
+        d_layer_loss = new_d_layer_loss;
+    }
+}
+
+void CompiledModel::update_parameters()
+{
+    for (int i = 0; i < layers.size(); i++)
+    {
+        for (int j = 0; j < biases[i].height(); j++)
+        {
+            biases[i][j][0] -= learning_rate * delta_biases[i][j][0];
+            for (int k = 0; k < weights[i].length(); k++)
+            {
+                weights[i][j][k] -= learning_rate * delta_weights[i][j][k];
+            }
+        }
+    }
+}
+
+void CompiledModel::fit(std::vector<std::pair<Matrix, Matrix>> &input, int epochs)
+{
+    for (int e = 0; e < epochs; e++)
+    {
+        std::cout << "Epoch " << e + 1 << std::endl;
+        std::shuffle(input.begin(), input.end(), mtgen);
+
+        int cnt = 0;
+        for (auto &[data, label]: input)
+        {
+            cnt++;
+            predict(data);
+            calc_loss(label);
+            back_propagation();
+
+            for (int i = 0; i < layers.size(); i++)
+            {
+                delta_weights[i] += temp_weights[i];
+                delta_biases[i] += temp_biases[i];
+            }
+
+            if (cnt == batch_size)
+            {
+                for (auto &delta_weight: delta_weights)
+                    delta_weight /= batch_size;
+                update_parameters();
+                cnt = 0;
+            }
+        }
+
+        if (cnt != 0)
+        {
+            for (auto &delta_weight: delta_weights)
+                delta_weight /= cnt;
+            update_parameters();
+        }
+    }
 }
 
