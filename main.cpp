@@ -6,6 +6,8 @@
 #include "matrix/Vector.h"
 #include "loss/MeanSquaredError.h"
 #include "ann/Layer.h"
+#include "ann/Model.h"
+#include "ann/CompiledModel.h"
 
 int main()
 {
@@ -45,8 +47,18 @@ int main()
     dans.print();
 
     Sigmoid sigmoid;
+    ReLU relu;
+    Tanh tanh;
     Layer layer = Layer(3, sigmoid);
     std::cout << layer.activation_function.f(-1) << std::endl;
 
+    Model model = Model({
+                                Layer(100, tanh),
+                                Layer(100, sigmoid),
+                                Layer(100, relu),
+                        });
+
+    MeanSquaredError mse;
+    CompiledModel cmodel = model.compile(10, 0.1, 1, mse);
     return 0;
 }
