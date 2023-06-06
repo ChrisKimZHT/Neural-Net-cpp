@@ -199,6 +199,12 @@ void CompiledModel::fit(std::vector<std::pair<Matrix, Matrix>> &input, int epoch
                 for (auto &delta_weight: delta_weights)
                     delta_weight /= batch_size;
                 update_parameters();
+
+                for (auto &ele: delta_weights)
+                    ele.set(0.0);
+                for (auto &ele: delta_biases)
+                    ele.set(0.0);
+
                 cnt_in_batch = 0;
             }
         }
@@ -209,6 +215,11 @@ void CompiledModel::fit(std::vector<std::pair<Matrix, Matrix>> &input, int epoch
                 delta_weight /= cnt_in_batch;
             update_parameters();
         }
+
+        for (auto &ele: delta_weights)
+            ele.set(0.0);
+        for (auto &ele: delta_biases)
+            ele.set(0.0);
 
         std::cout << std::endl;
     }

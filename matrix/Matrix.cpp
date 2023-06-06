@@ -92,6 +92,17 @@ Matrix Matrix::transpose()
     return res;
 }
 
+void Matrix::set(double val)
+{
+    for (int i = 0; i < _height; i++)
+    {
+        for (int j = 0; j < _length; j++)
+        {
+            _data[i][j] = val;
+        }
+    }
+}
+
 void Matrix::print() const
 {
     std::cout << "[\n";

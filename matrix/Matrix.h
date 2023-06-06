@@ -25,6 +25,7 @@ public:
     [[nodiscard]] int length() const;
     [[nodiscard]] std::pair<int, int> shape() const;
     Matrix transpose();
+    void set(double val);
     void print() const;
 
     Matrix &operator=(const Matrix &mat);
