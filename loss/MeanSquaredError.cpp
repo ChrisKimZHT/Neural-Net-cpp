@@ -4,22 +4,22 @@
 
 #include "MeanSquaredError.h"
 
-double MeanSquaredError::f(const Vector &a, const Vector &b)
+double MeanSquaredError::f(const Matrix &a, const Matrix &b)
 {
     double result = 0.0;
     for (int i = 0; i < a.height(); i++)
     {
-        result += (a.get(i) - b.get(i)) * (a.get(i) - b.get(i));
+        result += (a[i][0] - b[i][0]) * (a[i][0] - b[i][0]);
     }
     return result;
 }
 
-Vector MeanSquaredError::df(const Vector &a, const Vector &b)
+Matrix MeanSquaredError::df(const Matrix &a, const Matrix &b)
 {
-    Vector result(a.height());
+    Matrix result(a.height(), 1);
     for (int i = 0; i < a.height(); i++)
     {
-        result.get(i) = 2 * (a.get(i) - b.get(i));
+        result[i][0] = 2 * (a[i][0] - b[i][0]);
     }
     return result;
 }

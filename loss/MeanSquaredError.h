@@ -10,8 +10,8 @@
 class MeanSquaredError : public LossFunction
 {
 public:
-    double f(const Vector &a, const Vector &b) final;
-    Vector df(const Vector &a, const Vector &b) final;
+    double f(const Matrix &a, const Matrix &b) final;
+    Matrix df(const Matrix &a, const Matrix &b) final;
 };
 
 

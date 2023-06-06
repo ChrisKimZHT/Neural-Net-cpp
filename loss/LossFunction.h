@@ -5,13 +5,13 @@
 #ifndef ANN_LOSSFUNCTION_H
 #define ANN_LOSSFUNCTION_H
 
-#include "../matrix/Vector.h"
+#include "../matrix/Matrix.h"
 
 class LossFunction
 {
 public:
-    virtual double f(const Vector &a, const Vector &b);
-    virtual Vector df(const Vector &a, const Vector &b);
+    virtual double f(const Matrix &a, const Matrix &b);
+    virtual Matrix df(const Matrix &a, const Matrix &b);
 };
 
 
