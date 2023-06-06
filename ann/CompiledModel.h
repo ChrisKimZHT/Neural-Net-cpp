@@ -36,13 +36,15 @@ private:
     std::normal_distribution<double> distribution;
     void rand_matrix(Matrix &matrix);
 
+    static Matrix activate(Matrix matrix, ActivationFunction *activation_function);
+
 public:
     CompiledModel(int input_dim,
                   double learning_rate,
                   int batch_size,
                   LossFunction &loss_function,
                   std::vector<Layer> layers);
-
+    Matrix predict(Matrix &data);
 };
 
 

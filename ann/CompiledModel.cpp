@@ -18,6 +18,18 @@ void CompiledModel::rand_matrix(Matrix &matrix)
     }
 }
 
+Matrix CompiledModel::activate(Matrix matrix, ActivationFunction *activation_function)
+{
+    for (int i = 0; i < matrix.height(); i++)
+    {
+        for (int j = 0; j < matrix.length(); j++)
+        {
+            matrix[i][j] = activation_function->f(matrix[i][j]);
+        }
+    }
+    return matrix;
+}
+
 CompiledModel::CompiledModel(int input_dim,
                              double learning_rate,
                              int batch_size,
@@ -60,10 +72,10 @@ CompiledModel::CompiledModel(int input_dim,
     for (auto &layer: this->layers)
     {
         activation_functions.push_back(&layer.activation_function);
-        weights.emplace_back(last_layer_size, layer.size);
+        weights.emplace_back(layer.size, last_layer_size);
         rand_matrix(weights.back());
-        delta_weights.emplace_back(last_layer_size, layer.size);
-        temp_weights.emplace_back(last_layer_size, layer.size);
+        delta_weights.emplace_back(layer.size, last_layer_size);
+        temp_weights.emplace_back(layer.size, last_layer_size);
         biases.emplace_back(layer.size, 1);
         rand_matrix(biases.back());
         delta_biases.emplace_back(layer.size, 1);
@@ -73,3 +85,24 @@ CompiledModel::CompiledModel(int input_dim,
         last_layer_size = layer.size;
     }
 }
+
+Matrix CompiledModel::predict(Matrix &data)
+{
+    // Check the size of data
+    if (data.height() != input_dim)
+    {
+        std::cerr << "The size of data should be " << input_dim << "." << std::endl;
+        exit(1);
+    }
+
+    Matrix res = data;
+    for (int i = 0; i < layers.size(); i++)
+    {
+        outputs[i] = weights[i] * res + biases[i];
+        activated_outputs[i] = activate(outputs[i], activation_functions[i]);
+        res = activated_outputs[i];
+    }
+
+    return res;
+}
+
