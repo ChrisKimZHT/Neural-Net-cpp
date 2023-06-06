@@ -182,10 +182,10 @@ void CompiledModel::fit(std::vector<std::pair<Matrix, Matrix>> &input, int epoch
             predict(data);
             calc_loss(label);
             epoch_loss = epoch_loss * cnt_in_all / (cnt_in_all + 1) + loss / (cnt_in_all + 1);
-            std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+            std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
                       << std::right << std::setw(8) << cnt_in_all << "/" <<
                       std::left << std::setw(8) << data_size
-                      << "loss: " << std::left << std::setw(8) << epoch_loss << std::flush;
+                      << "loss: " << std::left << std::setw(12) << epoch_loss << std::flush;
             back_propagation();
 
             for (int i = 0; i < layers.size(); i++)
