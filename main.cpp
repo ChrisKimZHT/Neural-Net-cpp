@@ -4,6 +4,7 @@
 #include "activation/Tanh.h"
 #include "matrix/Matrix.h"
 #include "matrix/Vector.h"
+#include "loss/MeanSquaredError.h"
 
 int main()
 {
@@ -27,5 +28,19 @@ int main()
     Matrix e = a * d;
     e.print();
 
+    Vector x(4);
+    x.get(0) = 1;
+    x.get(1) = 2;
+    x.get(2) = 3;
+    x.get(3) = 4;
+    Vector y(4);
+    y.get(0) = 1;
+    y.get(1) = 0;
+    y.get(2) = 2;
+    y.get(3) = 2;
+    double ans = MeanSquaredError().f(x, y);
+    Vector dans = MeanSquaredError().df(x, y);
+    std::cout << ans << std::endl;
+    dans.print();
     return 0;
 }
