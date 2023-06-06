@@ -16,7 +16,7 @@ protected:
     double **_data;
 
 public:
-    Matrix() = default;
+    Matrix();
     Matrix(int height, int length, double val = 0);
     Matrix(const Matrix &mat);
     ~Matrix();

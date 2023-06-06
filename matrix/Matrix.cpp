@@ -4,6 +4,15 @@
 
 #include "Matrix.h"
 
+Matrix::Matrix()
+{
+    _height = 1;
+    _length = 1;
+    _data = new double *[1];
+    _data[0] = new double[1];
+    _data[0][0] = 0;
+}
+
 Matrix::Matrix(int height, int length, double val)
         : _height(height), _length(length)
 {
@@ -282,6 +291,7 @@ const double *Matrix::operator[](int h_idx) const
 {
     return _data[h_idx];
 }
+
 
 
 
