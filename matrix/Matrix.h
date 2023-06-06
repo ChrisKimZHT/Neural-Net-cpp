@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <utility>
 
 class Matrix
 {
@@ -22,8 +23,11 @@ public:
 
     [[nodiscard]] int height() const;
     [[nodiscard]] int length() const;
+    [[nodiscard]] std::pair<int, int> shape() const;
     Matrix transpose();
     void print() const;
+
+    Matrix &operator=(const Matrix &mat);
 
     Matrix operator+(const Matrix &mat);
     Matrix &operator+=(const Matrix &mat);

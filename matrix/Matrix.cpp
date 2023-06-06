@@ -65,6 +65,11 @@ int Matrix::length() const
     return _length;
 }
 
+std::pair<int, int> Matrix::shape() const
+{
+    return {_height, _length};
+}
+
 Matrix Matrix::transpose()
 {
     Matrix res(_length, _height);
@@ -93,6 +98,37 @@ void Matrix::print() const
         std::cout << "]\n";
     }
     std::cout << "]" << std::endl;
+}
+
+Matrix &Matrix::operator=(const Matrix &mat)
+{
+    if (this == &mat)
+        return *this;
+    if (_height != mat._height || _length != mat._length)
+    {
+        for (int i = 0; i < _height; i++)
+        {
+            delete[] _data[i];
+        }
+        delete[] _data;
+
+        _height = mat._height;
+        _length = mat._length;
+
+        _data = new double *[_height];
+        for (int i = 0; i < _height; i++)
+        {
+            _data[i] = new double[_length];
+        }
+    }
+    for (int i = 0; i < _height; i++)
+    {
+        for (int j = 0; j < _length; j++)
+        {
+            _data[i][j] = mat._data[i][j];
+        }
+    }
+    return *this;
 }
 
 Matrix Matrix::operator+(const Matrix &mat)
@@ -246,6 +282,7 @@ const double *Matrix::operator[](int h_idx) const
 {
     return _data[h_idx];
 }
+
 
 
 
