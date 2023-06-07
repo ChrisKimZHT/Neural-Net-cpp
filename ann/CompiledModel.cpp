@@ -155,14 +155,8 @@ void CompiledModel::update_parameters()
 {
     for (int i = 0; i < layers.size(); i++)
     {
-        for (int j = 0; j < biases[i].height(); j++)
-        {
-            biases[i][j][0] -= learning_rate * delta_biases[i][j][0];
-            for (int k = 0; k < weights[i].length(); k++)
-            {
-                weights[i][j][k] -= learning_rate * delta_weights[i][j][k];
-            }
-        }
+        biases[i] -= delta_biases[i] * learning_rate;
+        weights[i] -= delta_weights[i] * learning_rate;
     }
 }
 
@@ -183,8 +177,8 @@ void CompiledModel::fit(std::vector<std::pair<Matrix, Matrix>> &input, int epoch
             calc_loss(label);
             epoch_loss = epoch_loss * cnt_in_all / (cnt_in_all + 1) + loss / (cnt_in_all + 1);
             std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
-                      << std::right << std::setw(8) << cnt_in_all << "/" <<
-                      std::left << std::setw(8) << data_size
+                      << std::right << std::setw(8) << cnt_in_all << "/"
+                      << std::left << std::setw(8) << data_size
                       << "loss: " << std::left << std::setw(12) << epoch_loss << std::flush;
             back_propagation();
 
