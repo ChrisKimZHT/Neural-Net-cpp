@@ -52,6 +52,7 @@ public:
                   std::vector<Layer> layers);
     Matrix predict(Matrix &data);
     void fit(std::vector<std::pair<Matrix, Matrix>> &input, int epochs);
+    void evaluate(std::vector<std::pair<Matrix, Matrix>> &input);
 };
 
 

@@ -182,3 +182,21 @@ void CompiledModel::fit(std::vector<std::pair<Matrix, Matrix>> &input, int epoch
     }
 }
 
+void CompiledModel::evaluate(std::vector<std::pair<Matrix, Matrix>> &input)
+{
+    int cnt = 0, data_size = int(input.size());
+    double evaluate_loss = 0.0;
+    for (auto &[data, label]: input)
+    {
+        predict(data);
+        calc_loss(label);
+        evaluate_loss = evaluate_loss * cnt / (cnt + 1) + loss / (cnt + 1);
+        std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+                  << std::right << std::setw(8) << cnt << "/"
+                  << std::left << std::setw(8) << data_size
+                  << "loss: " << std::left << std::setw(12) << evaluate_loss << std::flush;
+        cnt++;
+    }
+    std::cout << std::endl;
+}
+
