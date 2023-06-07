@@ -164,12 +164,12 @@ void CompiledModel::fit(std::vector<std::pair<Matrix, Matrix>> &input, int epoch
         double epoch_loss = 0.0;
         std::cout << "[Epoch " << e + 1 << "/" << epochs << "]\n";
         std::shuffle(input.begin(), input.end(), mtgen);
-        int cnt = 0;
+        int cnt = 1;
         for (auto &[data, label]: input)
         {
             predict(data);
             calc_loss(label);
-            epoch_loss = epoch_loss * cnt / (cnt + 1) + loss / (cnt + 1);
+            epoch_loss = epoch_loss * (cnt - 1) / cnt + loss / cnt;
             std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
                       << std::right << std::setw(8) << cnt << "/"
                       << std::left << std::setw(8) << data_size
@@ -184,13 +184,13 @@ void CompiledModel::fit(std::vector<std::pair<Matrix, Matrix>> &input, int epoch
 
 void CompiledModel::evaluate(std::vector<std::pair<Matrix, Matrix>> &input)
 {
-    int cnt = 0, data_size = int(input.size());
+    int cnt = 1, data_size = int(input.size());
     double evaluate_loss = 0.0;
     for (auto &[data, label]: input)
     {
         predict(data);
         calc_loss(label);
-        evaluate_loss = evaluate_loss * cnt / (cnt + 1) + loss / (cnt + 1);
+        evaluate_loss = evaluate_loss * (cnt - 1) / cnt + loss / cnt;
         std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
                   << std::right << std::setw(8) << cnt << "/"
                   << std::left << std::setw(8) << data_size
