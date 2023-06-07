@@ -7,9 +7,12 @@
 
 #include <vector>
 #include <utility>
+#include <random>
+#include <chrono>
 #include "../matrix/Matrix.h"
 
-std::vector<std::pair<Matrix, Matrix>> load_polynomial(int size, double(*f)(double));
+std::vector<std::pair<Matrix, Matrix>>
+load_polynomial(int size, double(*f)(double), double min = -1.0, double max = 1.0);
 
 
 #endif //ANN_LOADPOLYNOMIAL_H
