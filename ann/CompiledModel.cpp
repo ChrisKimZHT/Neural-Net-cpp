@@ -116,8 +116,8 @@ Matrix CompiledModel::predict(Matrix &data)
 
 void CompiledModel::calc_loss(Matrix &labels)
 {
-    loss = loss_function.f(labels, activated_outputs.back());
-    d_loss = loss_function.df(labels, activated_outputs.back());
+    loss = loss_function.f(activated_outputs.back(), labels);
+    d_loss = loss_function.df(activated_outputs.back(), labels);
 }
 
 void CompiledModel::back_propagation()
