@@ -18,17 +18,15 @@ class CompiledModel
 private:
     int input_dim;
     double learning_rate;
-    int batch_size;
+    int batch_size; // not implemented yet
     LossFunction &loss_function;
     std::vector<Layer> layers;
 
     std::vector<ActivationFunction *> activation_functions;
     std::vector<Matrix> weights;
     std::vector<Matrix> delta_weights;
-    std::vector<Matrix> temp_weights;
     std::vector<Matrix> biases;
     std::vector<Matrix> delta_biases;
-    std::vector<Matrix> temp_biases;
     std::vector<Matrix> outputs;
     std::vector<Matrix> activated_outputs;
     Matrix current_input;
