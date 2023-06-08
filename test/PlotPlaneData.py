@@ -18,8 +18,8 @@ with open("train.txt", "r") as f:
     x = np.array(x)
     y = np.array(y)
 
-plt.xlabel("x1")
-plt.ylabel("x2")
+plt.xlabel("x")
+plt.ylabel("y")
 plt.axis("equal")
 plt.scatter(x[:, 0], x[:, 1], c=y)
 plt.show()
