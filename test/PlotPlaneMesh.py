@@ -36,6 +36,6 @@ with open("mesh.txt", "r") as f:
 plt.xlabel("x")
 plt.ylabel("y")
 plt.axis("equal")
-plt.contourf(gx, gy, mesh, alpha=0.9)
+plt.contourf(gy, gx, mesh, alpha=0.9)
 plt.scatter(x[:, 0], x[:, 1], c=y)
 plt.show()
