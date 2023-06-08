@@ -170,7 +170,7 @@ void CompiledModel::fit(std::vector<std::pair<Matrix, Matrix>> &input, int epoch
             predict(data);
             calc_loss(label);
             epoch_loss = epoch_loss * (cnt - 1) / cnt + loss / cnt;
-            std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+            std::cout << "\r"
                       << std::right << std::setw(8) << cnt << "/"
                       << std::left << std::setw(8) << data_size
                       << "loss: " << std::left << std::setw(12) << epoch_loss << std::flush;
@@ -191,7 +191,7 @@ void CompiledModel::evaluate(std::vector<std::pair<Matrix, Matrix>> &input)
         predict(data);
         calc_loss(label);
         evaluate_loss = evaluate_loss * (cnt - 1) / cnt + loss / cnt;
-        std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+        std::cout << "\r"
                   << std::right << std::setw(8) << cnt << "/"
                   << std::left << std::setw(8) << data_size
                   << "loss: " << std::left << std::setw(12) << evaluate_loss << std::flush;
