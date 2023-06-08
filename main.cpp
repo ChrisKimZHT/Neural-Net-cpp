@@ -10,6 +10,7 @@
 #include "ann/CompiledModel.h"
 #include "test/LoadPlane.h"
 #include "test/TestCaseFile.h"
+#include "test/SavePlaneMesh.h"
 
 int main()
 {
@@ -36,7 +37,6 @@ int main()
     */
     std::vector<std::pair<Matrix, Matrix>> train_data = load_plane(1000, "circle");
     std::vector<std::pair<Matrix, Matrix>> test_data = load_plane(100, "circle");
-    save_testcase("./circle_train.txt", train_data);
 
     std::cout << "Training..." << std::endl;
     cmodel.fit(train_data, 10);
@@ -44,5 +44,10 @@ int main()
     std::cout << "Evaluating..." << std::endl;
     cmodel.evaluate(test_data);
 
+    std::cout << "Saving..." << std::endl;
+    save_testcase("./train.txt", train_data);
+    save_plane_mesh(-8, 8, 0.1,
+                    -8, 8, 0.1,
+                    cmodel, "./mesh.txt");
     return 0;
 }
