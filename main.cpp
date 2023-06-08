@@ -18,7 +18,10 @@ int main()
     Sigmoid sigmoid;
     Linear linear;
     Model model = Model({
-                                Layer(20, sigmoid),
+                                Layer(100, sigmoid),
+                                Layer(100, sigmoid),
+                                Layer(100, sigmoid),
+                                Layer(100, sigmoid),
                                 Layer(1, linear),
                         });
 
@@ -35,19 +38,19 @@ int main()
     std::vector<std::pair<Matrix, Matrix>> train_data = load_polynomial(1000, poly);
     std::vector<std::pair<Matrix, Matrix>> test_data = load_polynomial(100, poly);
     */
-    std::vector<std::pair<Matrix, Matrix>> train_data = load_plane(1000, "circle");
-    std::vector<std::pair<Matrix, Matrix>> test_data = load_plane(100, "circle");
+    std::vector<std::pair<Matrix, Matrix>> train_data = load_plane(1000, "whirlpool");
+    std::vector<std::pair<Matrix, Matrix>> test_data = load_plane(100, "whirlpool");
 
     std::cout << "Training..." << std::endl;
-    cmodel.fit(train_data, 10);
+    cmodel.fit(train_data, 100);
 
     std::cout << "Evaluating..." << std::endl;
     cmodel.evaluate(test_data);
 
     std::cout << "Saving..." << std::endl;
     save_testcase("./train.txt", train_data);
-    save_plane_mesh(-8, 8, 0.1,
-                    -8, 8, 0.1,
+    save_plane_mesh(-15, 15, 0.5,
+                    -15, 15, 0.5,
                     cmodel, "./mesh.txt");
     return 0;
 }
