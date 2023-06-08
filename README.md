@@ -62,6 +62,7 @@ model.add_layer(Layer(1, linear));
 #include "loss/MeanSquaredError.h"
 #include "ann/CompiledModel.h"
 
+MeanSquaredError mse;
 CompiledModel cmodel = model.compile(2, 0.01, 1, mse);
 ```
 
