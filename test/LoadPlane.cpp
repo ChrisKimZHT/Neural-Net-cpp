@@ -15,7 +15,7 @@ std::vector<std::pair<Matrix, Matrix>> circle_type(int size)
     // inner circle
     for (int i = 0; i < size / 2; i++)
     {
-        double degree = 1.0 * i / size * 2 * M_PI;
+        double degree = 2.0 * i / size * 2 * M_PI;
         double x = cos(degree) + 0.5 * distribution(generator);
         double y = sin(degree) + 0.5 * distribution(generator);
         Matrix dot(2, 1);
@@ -28,9 +28,9 @@ std::vector<std::pair<Matrix, Matrix>> circle_type(int size)
     // outer ring
     for (int i = 0; i < size / 2; i++)
     {
-        double degree = 1.0 * i / size * 2 * M_PI;
-        double x = 2 * cos(degree) + 0.5 * distribution(generator);
-        double y = 2 * sin(degree) + 0.5 * distribution(generator);
+        double degree = 2.0 * i / size * 2 * M_PI;
+        double x = 4 * cos(degree) + 0.5 * distribution(generator);
+        double y = 4 * sin(degree) + 0.5 * distribution(generator);
         Matrix dot(2, 1);
         Matrix label(1, 1);
         dot[0][0] = x;
