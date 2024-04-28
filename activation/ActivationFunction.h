@@ -8,7 +8,7 @@
 
 #include "../matrix/Matrix.h"
 
-class ActivationFunction {
+struct ActivationFunction {
 public:
     virtual double activate(double x) = 0;
 

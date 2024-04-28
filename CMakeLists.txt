@@ -6,8 +6,13 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(
         ANN
         main.cpp
+
         matrix/Matrix.cpp
         matrix/Matrix.h
+
+        network/Network.cpp
+        network/Network.h
+
         layer/Layer.cpp
         layer/Layer.h
         layer/Layer.h
@@ -15,10 +20,21 @@ add_executable(
         layer/FullyConnectedLayer.h
         layer/ActivationLayer.cpp
         layer/ActivationLayer.h
+
+        loss/LossFunction.cpp
+        loss/LossFunction.h
+        loss/MeanSquaredError.cpp
+        loss/MeanSquaredError.h
+
         activation/ActivationFunction.cpp
         activation/ActivationFunction.h
         activation/Sigmoid.cpp
         activation/Sigmoid.h
+        activation/Tanh.cpp
+        activation/Tanh.h
+        activation/ReLu.cpp
+        activation/ReLu.h
+
         test/LoadPolynomial.cpp
         test/LoadPolynomial.h
         test/LoadPlane.cpp
@@ -27,12 +43,6 @@ add_executable(
         test/TestCaseFile.h
         test/SavePlaneMesh.cpp
         test/SavePlaneMesh.h
-        network/Network.cpp
-        network/Network.h
-        loss/LossFunction.cpp
-        loss/LossFunction.h
-        loss/MeanSquaredError.cpp
-        loss/MeanSquaredError.h
 )
 
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")

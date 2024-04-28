@@ -10,25 +10,17 @@ double Sigmoid::activate(double x) {
 }
 
 Matrix Sigmoid::activate(const Matrix &m) {
-    Matrix result(m.height(), m.length());
-    for (int i = 0; i < m.height(); i++) {
-        for (int j = 0; j < m.length(); j++) {
-            result[i][j] = activate(m[i][j]);
-        }
-    }
+    Matrix result(m);
+    result.perform([](double x) { return 1.0 / (1.0 + exp(-x)); });
     return result;
 }
 
 double Sigmoid::derivative(double x) {
-    return activate(x) * (1.0 - activate(x));
+    return 1.0 / (1.0 + exp(-x)) * (1.0 - 1.0 / (1.0 + exp(-x)));
 }
 
 Matrix Sigmoid::derivative(const Matrix &m) {
-    Matrix result(m.height(), m.length());
-    for (int i = 0; i < m.height(); i++) {
-        for (int j = 0; j < m.length(); j++) {
-            result[i][j] = derivative(m[i][j]);
-        }
-    }
+    Matrix result(m);
+    result.perform([](double x) { return 1.0 / (1.0 + exp(-x)) * (1.0 - 1.0 / (1.0 + exp(-x))); });
     return result;
 }

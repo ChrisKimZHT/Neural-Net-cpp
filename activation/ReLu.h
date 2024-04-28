@@ -2,13 +2,13 @@
 // Created by ChrisKim on 24-4-28.
 //
 
-#ifndef ANN_SIGMOID_H
-#define ANN_SIGMOID_H
+#ifndef ANN_RELU_H
+#define ANN_RELU_H
 
 
 #include "ActivationFunction.h"
 
-struct Sigmoid : public ActivationFunction {
+struct ReLu : public ActivationFunction {
     double activate(double x) override;
 
     Matrix activate(const Matrix &m) override;
@@ -19,4 +19,4 @@ struct Sigmoid : public ActivationFunction {
 };
 
 
-#endif //ANN_SIGMOID_H
+#endif //ANN_RELU_H
