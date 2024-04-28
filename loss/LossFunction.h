@@ -8,11 +8,10 @@
 
 #include "../matrix/Matrix.h"
 
-class LossFunction {
-public:
-    virtual double loss(const Matrix &output, const Matrix &target) = 0;
+struct LossFunction {
+    virtual double loss(const Matrix &predict, const Matrix &ground_truth) = 0;
 
-    virtual Matrix derivative(const Matrix &output, const Matrix &target) = 0;
+    virtual Matrix derivative(const Matrix &predict, const Matrix &ground_truth) = 0;
 };
 
 

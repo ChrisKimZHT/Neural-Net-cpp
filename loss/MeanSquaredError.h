@@ -8,11 +8,10 @@
 
 #include "LossFunction.h"
 
-class MeanSquaredError : public LossFunction {
-public:
-    double loss(const Matrix &output, const Matrix &target) override;
+struct MeanSquaredError : public LossFunction {
+    double loss(const Matrix &predict, const Matrix &ground_truth) override;
 
-    Matrix derivative(const Matrix &output, const Matrix &target) override;
+    Matrix derivative(const Matrix &predict, const Matrix &ground_truth) override;
 };
 
 
