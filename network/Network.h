@@ -21,12 +21,12 @@ public:
 
     void add_layer(Layer *layer);
 
-    Matrix forward(const Matrix &input);
-
-    void train(const std::vector<Matrix> &input, const std::vector<Matrix> &target,
-               LossFunction *loss_function, int epochs, double learning_rate);
+    double train(const std::vector<Matrix> &input, const std::vector<Matrix> &target,
+                 LossFunction *loss_function, int epochs, double learning_rate);
 
     Matrix predict(const Matrix &input);
+
+    double evaluate(const std::vector<Matrix> &input, const std::vector<Matrix> &target, LossFunction *loss_function);
 };
 
 
