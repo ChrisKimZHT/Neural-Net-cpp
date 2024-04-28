@@ -11,7 +11,8 @@
 #include <iomanip>
 #include "../matrix/Matrix.h"
 
-std::vector<std::pair<Matrix, Matrix>> load_testcase(const std::string& filename);
-void save_testcase(const std::string& filename, std::vector<std::pair<Matrix, Matrix>> &data);
+std::pair<std::vector<Matrix>, std::vector<Matrix>> load_testcase(const std::string &filename);
+
+void save_testcase(const std::string &filename, std::vector<Matrix> &x, std::vector<Matrix> &y);
 
 #endif //ANN_TESTCASEFILE_H

@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-with open("train.txt", "r") as f:
+with open("../test.txt", "r") as f:
     num_samples = int(f.readline().strip())
 
     input_shape = tuple(map(int, f.readline().strip().split()))
