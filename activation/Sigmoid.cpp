@@ -20,7 +20,7 @@ Matrix Sigmoid::activate(const Matrix &m) {
 }
 
 double Sigmoid::derivative(double x) {
-    return x * (1.0 - x);
+    return activate(x) * (1.0 - activate(x));
 }
 
 Matrix Sigmoid::derivative(const Matrix &m) {
