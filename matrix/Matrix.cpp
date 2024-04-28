@@ -257,6 +257,20 @@ void Matrix::perform(double (*f)(double)) {
     }
 }
 
+Matrix Matrix::hadamard(const Matrix &mat) const {
+    if (_height != mat._height || _length != mat._length) {
+        std::cout << "Matrix size not match. (hadamard)" << std::endl;
+        exit(1);
+    }
+    Matrix res(_height, _length);
+    for (int i = 0; i < _height; i++) {
+        for (int j = 0; j < _length; j++) {
+            res._data[i][j] = _data[i][j] * mat._data[i][j];
+        }
+    }
+    return res;
+}
+
 
 
 

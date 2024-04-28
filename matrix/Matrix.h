@@ -60,6 +60,8 @@ public:
 
     Matrix &operator/=(const double &val);
 
+    [[nodiscard]] Matrix hadamard(const Matrix &mat) const;
+
     double *operator[](int h_idx);
 
     const double *operator[](int h_idx) const;
