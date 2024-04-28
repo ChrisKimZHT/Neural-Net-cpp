@@ -4,7 +4,8 @@
 
 #include "FullyConnectedLayer.h"
 
-FullyConnectedLayer::FullyConnectedLayer(int input_size, int output_size) {
+FullyConnectedLayer::FullyConnectedLayer(int input_size, int output_size) :
+        input_size(input_size), output_size(output_size) {
     weights = Matrix(output_size, input_size);
     biases = Matrix(output_size, 1);
     weights.randomize();
@@ -13,8 +14,7 @@ FullyConnectedLayer::FullyConnectedLayer(int input_size, int output_size) {
 
 Matrix FullyConnectedLayer::forward(const Matrix &input) {
     this->input = input;
-    this->output = weights * input + biases;
-    return this->output;
+    return weights * input + biases;
 }
 
 Matrix FullyConnectedLayer::backward(const Matrix &d_output, double learning_rate) {

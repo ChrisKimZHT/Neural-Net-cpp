@@ -12,7 +12,7 @@
 struct ActivationLayer : public Layer {
     ActivationFunction *activation_function;
 
-    ActivationLayer(int size, ActivationFunction *activation_function);
+    explicit ActivationLayer(ActivationFunction *activation_function);
 
     Matrix forward(const Matrix &input) override;
 

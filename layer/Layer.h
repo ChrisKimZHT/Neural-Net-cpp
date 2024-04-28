@@ -8,7 +8,7 @@
 #include "../matrix/Matrix.h"
 
 struct Layer {
-    Matrix input, output;
+    Matrix input;
 
     virtual Matrix forward(const Matrix &input) = 0;
 

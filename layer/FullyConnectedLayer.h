@@ -9,6 +9,7 @@
 #include "Layer.h"
 
 struct FullyConnectedLayer : public Layer {
+    int input_size, output_size;
     Matrix weights, biases;
 
     FullyConnectedLayer(int input_size, int output_size);
