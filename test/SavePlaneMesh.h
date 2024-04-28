@@ -10,10 +10,10 @@
 #include <iomanip>
 #include <string>
 #include "../matrix/Matrix.h"
-#include "../ann/CompiledModel.h"
+#include "../network/Network.h"
 
 void save_plane_mesh(double x_start, double x_end, double x_step,
                      double y_start, double y_end, double y_step,
-                     CompiledModel &model, const std::string &filename);
+                     Network &network, const std::string &filename);
 
 #endif //ANN_SAVEPLANEMESH_H

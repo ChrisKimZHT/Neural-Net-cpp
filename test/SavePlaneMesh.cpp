@@ -7,7 +7,7 @@
 
 void save_plane_mesh(double x_start, double x_end, double x_step,
                      double y_start, double y_end, double y_step,
-                     CompiledModel &model, const std::string &filename)
+                     Network &network, const std::string &filename)
 {
     int y_size = (int) ((y_end - y_start) / y_step);
     int x_size = (int) ((x_end - x_start) / x_step);
@@ -27,7 +27,7 @@ void save_plane_mesh(double x_start, double x_end, double x_step,
             Matrix dot(2, 1);
             dot[0][0] = y;
             dot[1][0] = x;
-            mesh[i][j] = model.predict(dot)[0][0];
+            mesh[i][j] = network.predict(dot)[0][0];
             std::cout << "\rmesh[" << std::setw(5) << i << "][" << std::setw(5) << j << "] = "
                       << std::fixed << std::setprecision(9) << std::setw(16) << mesh[i][j] << std::flush;
         }
