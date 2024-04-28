@@ -62,7 +62,9 @@ void save_plane_mesh_with_data(const std::string &data_file, const std::string &
         x_min = std::min(x_min, input[1][0]);
         x_max = std::max(x_max, input[1][0]);
     }
-    save_plane_mesh(x_min - 0.5, x_max + 0.5, (x_max - x_min + 1) / 100,
-                    y_min - 0.5, y_max + 0.5, (y_max - y_min + 1) / 100,
+    double x_padding = (x_max - x_min) * 0.05;
+    double y_padding = (y_max - y_min) * 0.05;
+    save_plane_mesh(x_min - x_padding, x_max + x_padding, (x_max - x_min + 2 * x_padding) / 100,
+                    y_min - y_padding, y_max + y_padding, (y_max - y_min + 2 * y_padding) / 100,
                     network, mesh_file);
 }
