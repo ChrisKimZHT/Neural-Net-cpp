@@ -38,6 +38,8 @@ public:
 
     void randomize(double min = -1.0, double max = 1.0);
 
+    void perform(double(*f)(double));
+
     Matrix &operator=(const Matrix &mat);
 
     Matrix operator+(const Matrix &mat) const;

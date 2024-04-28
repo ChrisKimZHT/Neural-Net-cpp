@@ -249,6 +249,14 @@ void Matrix::randomize(double min, double max) {
     }
 }
 
+void Matrix::perform(double (*f)(double)) {
+    for (int i = 0; i < _height; i++) {
+        for (int j = 0; j < _length; j++) {
+            _data[i][j] = f(_data[i][j]);
+        }
+    }
+}
+
 
 
 
