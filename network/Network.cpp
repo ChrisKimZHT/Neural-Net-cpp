@@ -12,6 +12,7 @@ void Network::add_layer(Layer *layer) {
 double Network::train(const std::vector<Matrix> &input, const std::vector<Matrix> &target,
                       LossFunction *loss_function, int epochs, double learning_rate) {
     int data_size = int(input.size());
+    std::cout << "[Training] " << data_size << " train data\n";
     double loss = 0;
     for (int e = 0; e < epochs; e++) {
         loss = 0;
@@ -44,6 +45,7 @@ Matrix Network::predict(const Matrix &input) {
 double Network::evaluate(const std::vector<Matrix> &input, const std::vector<Matrix> &target,
                          LossFunction *loss_function) {
     int data_size = int(input.size());
+    std::cout << "[Evaluating] " << data_size << " evaluate data\n";
     double loss = 0;
     for (int i = 0; i < input.size(); i++) {
         Matrix output = predict(input[i]);
