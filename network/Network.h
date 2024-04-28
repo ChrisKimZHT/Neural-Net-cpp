@@ -13,16 +13,18 @@
 class Network {
 private:
     std::vector<Layer *> layers;
-    LossFunction *loss_function;
 
 public:
-    explicit Network(LossFunction *loss_function);
+    explicit Network() = default;
+
+    explicit Network(std::vector<Layer *> layers) : layers(std::move(layers)) {};
 
     void add_layer(Layer *layer);
 
     Matrix forward(const Matrix &input);
 
-    void train(const std::vector<Matrix> &input, const std::vector<Matrix> &target, int epochs, double learning_rate);
+    void train(const std::vector<Matrix> &input, const std::vector<Matrix> &target,
+               LossFunction *loss_function, int epochs, double learning_rate);
 
     Matrix predict(const Matrix &input);
 };
