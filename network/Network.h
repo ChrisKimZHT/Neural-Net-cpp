@@ -22,7 +22,7 @@ public:
 
     Matrix forward(const Matrix &input);
 
-    double train(const std::vector<Matrix> &input, const std::vector<Matrix> &target, int epochs, double learning_rate);
+    void train(const std::vector<Matrix> &input, const std::vector<Matrix> &target, int epochs, double learning_rate);
 
     Matrix predict(const Matrix &input);
 };

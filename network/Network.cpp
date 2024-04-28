@@ -20,10 +20,10 @@ Matrix Network::forward(const Matrix &input) {
     return output;
 }
 
-double
+void
 Network::train(const std::vector<Matrix> &input, const std::vector<Matrix> &target, int epochs, double learning_rate) {
-    double loss = 0;
     for (int epoch = 0; epoch < epochs; epoch++) {
+        double loss = 0;
         for (int i = 0; i < input.size(); i++) {
             Matrix output = forward(input[i]);
             loss += loss_function->loss(output, target[i]);
@@ -34,7 +34,6 @@ Network::train(const std::vector<Matrix> &input, const std::vector<Matrix> &targ
         }
         std::cout << "Epoch: " << epoch << " Loss: " << loss << std::endl;
     }
-    return loss;
 }
 
 Matrix Network::predict(const Matrix &input) {

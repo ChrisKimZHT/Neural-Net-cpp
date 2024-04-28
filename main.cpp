@@ -9,37 +9,46 @@
 #include "network/Network.h"
 #include "loss/MeanSquaredError.h"
 #include "layer/FullyConnectedLayer.h"
+#include "layer/ActivationLayer.h"
 
 int main() {
-    std::cout << "Define Model..." << std::endl;
     Sigmoid sigmoid;
     MeanSquaredError mse;
     Network network(&mse);
-    FullyConnectedLayer layer1(2, 10);
+    FullyConnectedLayer layer1(2, 3);
     network.add_layer(&layer1);
-    FullyConnectedLayer layer2(10, 10);
+    ActivationLayer activation1(3, &sigmoid);
+    network.add_layer(&activation1);
+    FullyConnectedLayer layer2(3, 1);
     network.add_layer(&layer2);
-    FullyConnectedLayer layer3(10, 1);
-    network.add_layer(&layer3);
-    std::cout << "Loading Dataset..." << std::endl;
-
-    std::vector<std::pair<Matrix, Matrix>> train_data = load_plane(1000, "whirlpool");
+    ActivationLayer activation2(1, &sigmoid);
+    network.add_layer(&activation2);
 
     std::vector<Matrix> train_input;
     std::vector<Matrix> train_output;
+    Matrix a(2, 1), b(2, 1), c(2, 1), d(2, 1);
+    a[0][0] = 0;
+    a[1][0] = 0;
+    b[0][0] = 0;
+    b[1][0] = 1;
+    c[0][0] = 1;
+    c[1][0] = 0;
+    d[0][0] = 1;
+    d[1][0] = 1;
+    train_input.push_back(a);
+    train_input.push_back(b);
+    train_input.push_back(c);
+    train_input.push_back(d);
+    Matrix a_out(1, 1), b_out(1, 1), c_out(1, 1), d_out(1, 1);
+    a_out[0][0] = 0;
+    b_out[0][0] = 1;
+    c_out[0][0] = 1;
+    d_out[0][0] = 0;
+    train_output.push_back(a_out);
+    train_output.push_back(b_out);
+    train_output.push_back(c_out);
+    train_output.push_back(d_out);
 
-    for (auto &data: train_data) {
-        train_input.push_back(data.first);
-        train_output.push_back(data.second);
-    }
-
-    std::cout << "Training..." << std::endl;
-    network.train(train_input, train_output, 1000, 0.01);
-
-    std::cout << "Saving..." << std::endl;
-    save_testcase("./train.txt", train_data);
-    save_plane_mesh(-15, 15, 0.5,
-                    -15, 15, 0.5,
-                    network, "./mesh.txt");
+    network.train(train_input, train_output, 10000, 0.1);
     return 0;
 }
