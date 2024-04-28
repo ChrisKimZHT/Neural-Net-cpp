@@ -16,4 +16,7 @@ void save_plane_mesh(double x_start, double x_end, double x_step,
                      double y_start, double y_end, double y_step,
                      Network &network, const std::string &filename);
 
+void save_plane_mesh_with_data(const std::string &data_file, const std::string &mesh_file,
+                               std::vector<Matrix> &x, std::vector<Matrix> &y, Network &network);
+
 #endif //ANN_SAVEPLANEMESH_H
