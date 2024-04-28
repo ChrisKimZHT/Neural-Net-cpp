@@ -17,5 +17,9 @@ Matrix ActivationLayer::forward(const Matrix &input) {
 }
 
 Matrix ActivationLayer::backward(const Matrix &d_output, double learning_rate) {
-    return activation_function->derivative(input) * d_output;
+    Matrix result(input.height(), 1);
+    for (int i = 0; i < input.height(); i++) {
+        result[i][0] = activation_function->derivative(input[i][0]) * d_output[i][0];
+    }
+    return result;
 }
