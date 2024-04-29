@@ -20,6 +20,8 @@ add_executable(
         layer/FullyConnectedLayer.h
         layer/ActivationLayer.cpp
         layer/ActivationLayer.h
+        layer/ConvolutionalLayer.cpp
+        layer/ConvolutionalLayer.h
 
         loss/LossFunction.cpp
         loss/LossFunction.h
