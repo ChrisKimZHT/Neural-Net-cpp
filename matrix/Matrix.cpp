@@ -260,6 +260,10 @@ double Matrix::min() const {
     return *std::min_element(_data.begin(), _data.end());
 }
 
+double Matrix::sum() const {
+    return std::accumulate(_data.begin(), _data.end(), 0.0);
+}
+
 std::pair<int, int> Matrix::argmax() const {
     int max_idx = int(std::max_element(_data.begin(), _data.end()) - _data.begin());
     return {max_idx / _col, max_idx % _col};

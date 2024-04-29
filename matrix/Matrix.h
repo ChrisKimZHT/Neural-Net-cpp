@@ -82,6 +82,8 @@ public:
 
     [[nodiscard]] double min() const;
 
+    [[nodiscard]] double sum() const;
+
     [[nodiscard]] std::pair<int, int> argmax() const;
 
     [[nodiscard]] std::pair<int, int> argmin() const;
