@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-with open("train.txt", "r") as f:
+with open("../test.txt", "r") as f:
     num_samples = int(f.readline().strip())
 
     input_shape = tuple(map(int, f.readline().strip().split()))
@@ -18,7 +18,7 @@ with open("train.txt", "r") as f:
     x = np.array(x)
     y = np.array(y)
 
-with open("mesh.txt", "r") as f:
+with open("../mesh.txt", "r") as f:
     x_coord = list(map(float, f.readline().strip().split()))
     y_coord = list(map(float, f.readline().strip().split()))
     x_coord = np.array(x_coord)

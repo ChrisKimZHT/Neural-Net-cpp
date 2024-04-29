@@ -12,6 +12,6 @@
 #include <chrono>
 #include "../matrix/Matrix.h"
 
-std::vector<std::pair<Matrix, Matrix>> load_plane(int size, const std::string& type);
+std::pair<std::vector<Matrix>, std::vector<Matrix>> load_plane(int size, const std::string &type);
 
 #endif //ANN_LOADPLANE_H

@@ -3,6 +3,46 @@ project(ANN)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(ANN main.cpp activation/ActivationFunction.cpp activation/ActivationFunction.h activation/Sigmoid.cpp activation/Sigmoid.h activation/ReLU.cpp activation/ReLU.h activation/Tanh.cpp activation/Tanh.h matrix/Matrix.cpp matrix/Matrix.h ann/Layer.cpp ann/Layer.h ann/Model.cpp ann/Model.h loss/LossFunction.cpp loss/LossFunction.h loss/MeanSquaredError.cpp loss/MeanSquaredError.h ann/CompiledModel.cpp ann/CompiledModel.h activation/Linear.cpp activation/Linear.h test/LoadPolynomial.cpp test/LoadPolynomial.h test/LoadPlane.cpp test/LoadPlane.h test/TestCaseFile.cpp test/TestCaseFile.h test/SavePlaneMesh.cpp test/SavePlaneMesh.h)
+add_executable(
+        ANN
+        main.cpp
+
+        matrix/Matrix.cpp
+        matrix/Matrix.h
+
+        network/Network.cpp
+        network/Network.h
+
+        layer/Layer.cpp
+        layer/Layer.h
+        layer/Layer.h
+        layer/FullyConnectedLayer.cpp
+        layer/FullyConnectedLayer.h
+        layer/ActivationLayer.cpp
+        layer/ActivationLayer.h
+
+        loss/LossFunction.cpp
+        loss/LossFunction.h
+        loss/MeanSquaredError.cpp
+        loss/MeanSquaredError.h
+
+        activation/ActivationFunction.cpp
+        activation/ActivationFunction.h
+        activation/Sigmoid.cpp
+        activation/Sigmoid.h
+        activation/Tanh.cpp
+        activation/Tanh.h
+        activation/ReLu.cpp
+        activation/ReLu.h
+
+        test/LoadPolynomial.cpp
+        test/LoadPolynomial.h
+        test/LoadPlane.cpp
+        test/LoadPlane.h
+        test/TestCaseFile.cpp
+        test/TestCaseFile.h
+        test/SavePlaneMesh.cpp
+        test/SavePlaneMesh.h
+)
 
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")

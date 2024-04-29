@@ -1,17 +1,17 @@
 //
-// Created by ChrisKim on 2023/6/6.
+// Created by ChrisKim on 24-4-28.
 //
 
 #ifndef ANN_LOSSFUNCTION_H
 #define ANN_LOSSFUNCTION_H
 
+
 #include "../matrix/Matrix.h"
 
-class LossFunction
-{
-public:
-    virtual double f(const Matrix &a, const Matrix &b);
-    virtual Matrix df(const Matrix &a, const Matrix &b);
+struct LossFunction {
+    virtual double loss(const Matrix &predict, const Matrix &ground_truth) = 0;
+
+    virtual Matrix derivative(const Matrix &predict, const Matrix &ground_truth) = 0;
 };
 
 

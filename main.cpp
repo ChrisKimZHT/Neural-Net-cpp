@@ -1,56 +1,33 @@
-#include <iostream>
 #include <vector>
-#include <utility>
-#include "activation/Linear.h"
-#include "activation/Sigmoid.h"
-#include "matrix/Matrix.h"
+#include "network/Network.h"
+#include "layer/FullyConnectedLayer.h"
+#include "layer/ActivationLayer.h"
+#include "activation/tanh.h"
 #include "loss/MeanSquaredError.h"
-#include "ann/Layer.h"
-#include "ann/Model.h"
-#include "ann/CompiledModel.h"
 #include "test/LoadPlane.h"
-#include "test/TestCaseFile.h"
 #include "test/SavePlaneMesh.h"
 
-int main()
-{
-    std::cout << "Define Model..." << std::endl;
-    Sigmoid sigmoid;
-    Linear linear;
-    Model model = Model({
-                                Layer(100, sigmoid),
-                                Layer(100, sigmoid),
-                                Layer(100, sigmoid),
-                                Layer(100, sigmoid),
-                                Layer(1, linear),
-                        });
+int main() {
+    Tanh tanh;
 
-    std::cout << "Compiling Model..." << std::endl;
     MeanSquaredError mse;
-    CompiledModel cmodel = model.compile(2, 0.01, 1, mse);
+    Network network({
+        new FullyConnectedLayer(2, 20),
+        new ActivationLayer(&tanh),
+        new FullyConnectedLayer(20, 20),
+        new ActivationLayer(&tanh),
+        new FullyConnectedLayer(20, 1),
+        new ActivationLayer(&tanh)
+    });
 
-    std::cout << "Loading Dataset..." << std::endl;
-    /*
-    auto poly = [](double x) -> double
-    {
-        return 1.1 * x * x + 4.5 * x + 1.4;
-    };
-    std::vector<std::pair<Matrix, Matrix>> train_data = load_polynomial(1000, poly);
-    std::vector<std::pair<Matrix, Matrix>> test_data = load_polynomial(100, poly);
-    */
-    std::vector<std::pair<Matrix, Matrix>> train_data = load_plane(1000, "whirlpool");
-    std::vector<std::pair<Matrix, Matrix>> test_data = load_plane(100, "whirlpool");
+    auto [train_input, train_output] = load_plane(1000, "circle");
+    auto [test_input, test_output] = load_plane(500, "circle");
 
-    std::cout << "Training..." << std::endl;
-    cmodel.fit(train_data, 100);
+    network.train(train_input, train_output, &mse, 25, 0.001);
 
-    std::cout << "Evaluating..." << std::endl;
-    cmodel.evaluate(test_data);
+    network.evaluate(test_input, test_output, &mse);
 
-    std::cout << "Saving..." << std::endl;
-    save_testcase("./train.txt", train_data);
-    save_plane_mesh(-15, 15, 0.5,
-                    -15, 15, 0.5,
-                    cmodel, "./mesh.txt");
+    save_plane_mesh_with_data("../test.txt", "../mesh.txt", test_input, test_output, network);
+
     return 0;
 }

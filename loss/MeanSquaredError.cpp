@@ -1,25 +1,17 @@
 //
-// Created by ChrisKim on 2023/6/6.
+// Created by ChrisKim on 24-4-28.
 //
 
 #include "MeanSquaredError.h"
 
-double MeanSquaredError::f(const Matrix &a, const Matrix &b)
-{
-    double result = 0.0;
-    for (int i = 0; i < a.height(); i++)
-    {
-        result += (a[i][0] - b[i][0]) * (a[i][0] - b[i][0]);
+double MeanSquaredError::loss(const Matrix &predict, const Matrix &ground_truth) {
+    double result = 0;
+    for (int i = 0; i < predict.height(); i++) {
+        result += pow(predict[i][0] - ground_truth[i][0], 2);
     }
-    return result;
+    return result / predict.height();
 }
 
-Matrix MeanSquaredError::df(const Matrix &a, const Matrix &b)
-{
-    Matrix result(a.height(), 1);
-    for (int i = 0; i < a.height(); i++)
-    {
-        result[i][0] = 2 * (a[i][0] - b[i][0]);
-    }
-    return result;
+Matrix MeanSquaredError::derivative(const Matrix &predict, const Matrix &ground_truth) {
+    return (predict - ground_truth) * 2 / predict.height();
 }
