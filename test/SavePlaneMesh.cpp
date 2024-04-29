@@ -14,7 +14,7 @@ void save_plane_mesh(double x_start, double x_end, double x_step,
     Matrix mesh(y_size, x_size);
     std::vector<double> y_coords(y_size);
     std::vector<double> x_coords(x_size);
-    std::cout << "\n[Meshing Plane]" << std::endl;
+    std::cout << "\n[Mesh Plane]" << std::endl;
     std::cout << "mesh x from " << x_start << " to " << x_end << " with step " << x_step << std::endl;
     std::cout << "mesh y from " << y_start << " to " << y_end << " with step " << y_step << std::endl;
     for (int i = 0; i < y_size; i++) {
