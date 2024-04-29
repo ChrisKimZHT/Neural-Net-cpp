@@ -48,9 +48,17 @@ public:
 
     Matrix &operator+=(const Matrix &mat);
 
+    Matrix operator+(double x) const;
+
+    Matrix &operator+=(double x);
+
     Matrix operator-(const Matrix &mat) const;
 
     Matrix &operator-=(const Matrix &mat);
+
+    Matrix operator-(double x) const;
+
+    Matrix &operator-=(double x);
 
     Matrix operator*(const Matrix &mat) const;
 

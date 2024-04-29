@@ -116,6 +116,19 @@ Matrix &Matrix::operator+=(const Matrix &mat) {
     return *this;
 }
 
+Matrix Matrix::operator+(double x) const {
+    Matrix res(*this);
+    res += x;
+    return res;
+}
+
+Matrix &Matrix::operator+=(double x) {
+    for (double &i: _data) {
+        i += x;
+    }
+    return *this;
+}
+
 Matrix Matrix::operator-(const Matrix &mat) const {
     Matrix res(*this);
     res -= mat;
@@ -133,6 +146,14 @@ Matrix &Matrix::operator-=(const Matrix &mat) {
         _data[i] -= mat._data[i];
     }
     return *this;
+}
+
+Matrix Matrix::operator-(double x) const {
+    return *this + (-x);
+}
+
+Matrix &Matrix::operator-=(double x) {
+    return *this += -x;
 }
 
 Matrix Matrix::operator*(const Matrix &mat) const {
