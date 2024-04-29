@@ -14,6 +14,11 @@ std::pair<std::vector<Matrix>, std::vector<Matrix>> load_testcase(const std::str
          >> input_shape.first >> input_shape.second
          >> label_shape.first >> label_shape.second;
     for (int i = 0; i < data_size; i++) {
+        std::cout << "\r[Load Dataset] "
+                  << std::right << std::fixed << std::setprecision(2)
+                  << std::setw(6) << 100.0 * (i + 1) / data_size << "% "
+                  << std::right << std::setw(8) << i + 1 << "/"
+                  << std::left << std::setw(8) << data_size << std::flush;
         Matrix input(input_shape.first, input_shape.second);
         Matrix label(label_shape.first, label_shape.second);
         for (int j = 0; j < input_shape.first; j++) {
@@ -29,6 +34,7 @@ std::pair<std::vector<Matrix>, std::vector<Matrix>> load_testcase(const std::str
         x.push_back(input);
         y.push_back(label);
     }
+    std::cout << std::endl;
     return {x, y};
 }
 
@@ -45,6 +51,11 @@ void save_testcase(const std::string &filename, std::vector<Matrix> &x, std::vec
          << input_shape.first << ' ' << input_shape.second << '\n'
          << label_shape.first << ' ' << label_shape.second << '\n';
     for (int k = 0; k < data_size; k++) {
+        std::cout << "\r[Save Dataset] "
+                  << std::right << std::fixed << std::setprecision(2)
+                  << std::setw(6) << 100.0 * (k + 1) / data_size << "% "
+                  << std::right << std::setw(8) << k + 1 << "/"
+                  << std::left << std::setw(8) << data_size << std::flush;
         auto &input = x[k];
         auto &label = y[k];
         for (int i = 0; i < input_shape.first; i++) {
@@ -59,5 +70,6 @@ void save_testcase(const std::string &filename, std::vector<Matrix> &x, std::vec
         }
         file << '\n';
     }
+    std::cout << std::endl;
     file.close();
 }
