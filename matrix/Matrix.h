@@ -12,29 +12,31 @@
 
 class Matrix {
 protected:
-    int _height, _length;
-    double **_data;
+    int _row{}, _col{};
+    std::vector<double> _data;
 
 public:
     Matrix();
 
-    Matrix(int height, int length, double val = 0);
+    Matrix(int row, int col, double val = 0);
 
     Matrix(const Matrix &mat);
 
-    ~Matrix();
+    explicit Matrix(const std::vector<std::vector<double>> &data);
 
-    [[nodiscard]] int height() const;
+    void from_vector(const std::vector<std::vector<double>> &data);
 
-    [[nodiscard]] int length() const;
+    [[nodiscard]] int row() const;
+
+    [[nodiscard]] int col() const;
 
     [[nodiscard]] std::pair<int, int> shape() const;
 
-    Matrix transpose();
+    [[nodiscard]] Matrix transpose() const;
 
     void set(double val);
 
-    void print() const;
+    void print(int precision = 2) const;
 
     void randomize(double min = -1.0, double max = 1.0);
 
@@ -60,22 +62,25 @@ public:
 
     Matrix &operator/=(const double &val);
 
+    double operator()(int r, int c) const;
+
+    double &operator()(int r, int c);
+
     [[nodiscard]] Matrix hadamard(const Matrix &mat) const;
 
-    double max() const;
+    [[nodiscard]] double max() const;
 
-    double min() const;
+    [[nodiscard]] double min() const;
 
-    std::pair<int, int> argmax() const;
+    [[nodiscard]] std::pair<int, int> argmax() const;
 
-    std::pair<int, int> argmin() const;
+    [[nodiscard]] std::pair<int, int> argmin() const;
 
-    Matrix reshape(int height, int length) const;
-
-    double *operator[](int h_idx);
-
-    const double *operator[](int h_idx) const;
+    [[nodiscard]] Matrix reshape(int row, int col) const;
 };
 
+Matrix operator*(const double &val, const Matrix &mat);
+
+Matrix make_matrix(const std::vector<std::vector<double>> &data);
 
 #endif //ANN_MATRIX_H

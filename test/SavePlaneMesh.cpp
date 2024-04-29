@@ -23,14 +23,12 @@ void save_plane_mesh(double x_start, double x_end, double x_step,
             double x = x_start + j * x_step;
             y_coords[i] = y;
             x_coords[j] = x;
-            Matrix dot(2, 1);
-            dot[0][0] = y;
-            dot[1][0] = x;
-            mesh[i][j] = network.predict(dot)[0][0];
+            Matrix dot({std::vector{y}, std::vector{x}});
+            mesh(i, j) = network.predict(dot)(0, 0);
             std::cout << "\r" << std::fixed << std::setprecision(0) << std::right
                       << std::setw(3) << ceil(100.0 * (i * x_size + j) / (y_size * x_size)) << "% | "
                       << "mesh[" << std::setw(3) << i + 1 << "][" << std::setw(3) << j + 1 << "] = "
-                      << std::fixed << std::setprecision(9) << std::setw(12) << mesh[i][j] << std::flush;
+                      << std::fixed << std::setprecision(9) << std::setw(12) << mesh(i, j) << std::flush;
         }
     }
     std::ofstream file(filename);
@@ -42,9 +40,9 @@ void save_plane_mesh(double x_start, double x_end, double x_step,
         file << std::fixed << std::setprecision(9) << std::left << std::setw(20) << y_coords[i] << " ";
     }
     file << std::endl;
-    for (int i = 0; i < mesh.height(); i++) {
-        for (int j = 0; j < mesh.length(); j++) {
-            file << std::fixed << std::setprecision(9) << std::left << std::setw(20) << mesh[i][j] << " ";
+    for (int i = 0; i < mesh.row(); i++) {
+        for (int j = 0; j < mesh.col(); j++) {
+            file << std::fixed << std::setprecision(9) << std::left << std::setw(20) << mesh(i, j) << " ";
         }
         file << std::endl;
     }
@@ -57,10 +55,10 @@ void save_plane_mesh_with_data(const std::string &data_file, const std::string &
     save_testcase(data_file, x, y);
     double x_min = 1e18, x_max = -1e18, y_min = 1e18, y_max = -1e18;
     for (auto &input: x) {
-        y_min = std::min(y_min, input[0][0]);
-        y_max = std::max(y_max, input[0][0]);
-        x_min = std::min(x_min, input[1][0]);
-        x_max = std::max(x_max, input[1][0]);
+        y_min = std::min(y_min, input(0, 0));
+        y_max = std::max(y_max, input(0, 0));
+        x_min = std::min(x_min, input(1, 0));
+        x_max = std::max(x_max, input(1, 0));
     }
     double x_padding = (x_max - x_min) * 0.05;
     double y_padding = (y_max - y_min) * 0.05;

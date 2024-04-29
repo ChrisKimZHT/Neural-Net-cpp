@@ -3,94 +3,82 @@
 //
 
 #include <iomanip>
+#include <algorithm>
 #include "Matrix.h"
 
 Matrix::Matrix() {
-    _height = 1;
-    _length = 1;
-    _data = new double *[1];
-    _data[0] = new double[1];
-    _data[0][0] = 0;
+    _row = 1;
+    _col = 1;
+    _data = {0};
 }
 
-Matrix::Matrix(int height, int length, double val)
-        : _height(height), _length(length) {
-    if (height <= 0 || length <= 0) {
-        std::cout << "Matrix size must be positive." << std::endl;
+Matrix::Matrix(int row, int col, double val)
+        : _row(row), _col(col) {
+    if (row <= 0 || col <= 0) {
+        std::cerr << "Matrix size must be positive." << std::endl;
         exit(1);
     }
-
-    _data = new double *[height];
-    for (int i = 0; i < height; i++) {
-        _data[i] = new double[length];
-    }
-
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            _data[i][j] = val;
-        }
-    }
+    _data.resize(row * col, val);
 }
 
 Matrix::Matrix(const Matrix &mat)
-        : _height(mat._height), _length(mat._length) {
-    _data = new double *[_height];
-    for (int i = 0; i < _height; i++) {
-        _data[i] = new double[_length];
-    }
+        : _row(mat._row), _col(mat._col) {
+    _data.assign(mat._data.begin(), mat._data.end());
+}
 
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            _data[i][j] = mat._data[i][j];
+Matrix::Matrix(const std::vector<std::vector<double>> &data) {
+    this->from_vector(data);
+}
+
+void Matrix::from_vector(const std::vector<std::vector<double>> &data) {
+    _row = int(data.size());
+    _col = int(data[0].size());
+    _data.resize(_row * _col);
+    for (int i = 0; i < _row; i++) {
+        if (int(data[i].size()) != _col) {
+            std::cerr << "Invalid matrix data: " << i << "th row has different size." << std::endl;
+            exit(1);
+        }
+    }
+    for (int i = 0; i < _row; i++) {
+        for (int j = 0; j < _col; j++) {
+            this->operator()(i, j) = data[i][j];
         }
     }
 }
 
-Matrix::~Matrix() {
-    for (int i = 0; i < _height; i++) {
-        delete[] _data[i];
-    }
-    delete[] _data;
+int Matrix::row() const {
+    return _row;
 }
 
-int Matrix::height() const {
-    return _height;
-}
-
-int Matrix::length() const {
-    return _length;
+int Matrix::col() const {
+    return _col;
 }
 
 std::pair<int, int> Matrix::shape() const {
-    return {_height, _length};
+    return {_row, _col};
 }
 
-Matrix Matrix::transpose() {
-    Matrix res(_length, _height);
-    for (int i = 0; i < _length; i++) {
-        for (int j = 0; j < _height; j++) {
-            res._data[i][j] = _data[j][i];
-        }
-    }
+Matrix Matrix::transpose() const {
+    Matrix res;
+    res._row = _col;
+    res._col = _row;
+    res._data.assign(_data.begin(), _data.end());
     return res;
 }
 
 void Matrix::set(double val) {
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            _data[i][j] = val;
-        }
-    }
+    _data.assign(_data.size(), val);
 }
 
-void Matrix::print() const {
+void Matrix::print(int precision) const {
     std::cout << "[\n";
-    for (int i = 0; i < _height; i++) {
+    for (int i = 0; i < _row; i++) {
         std::cout << "  [";
-        for (int j = 0; j < _length; j++) {
+        for (int j = 0; j < _col; j++) {
             if (j)
                 std::cout << ", ";
-            std::cout << std::fixed << std::setprecision(9) << _data[i][j];
+            std::cout << std::fixed << std::setprecision(precision) << this->operator()(i, j);
         }
         std::cout << "]\n";
     }
@@ -100,93 +88,65 @@ void Matrix::print() const {
 Matrix &Matrix::operator=(const Matrix &mat) {
     if (this == &mat)
         return *this;
-    if (_height != mat._height || _length != mat._length) {
-        for (int i = 0; i < _height; i++) {
-            delete[] _data[i];
-        }
-        delete[] _data;
-
-        _height = mat._height;
-        _length = mat._length;
-
-        _data = new double *[_height];
-        for (int i = 0; i < _height; i++) {
-            _data[i] = new double[_length];
-        }
+    if (_row != mat._row || _col != mat._col) {
+        _row = mat._row;
+        _col = mat._col;
+        _data.resize(_row * _col);
     }
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            _data[i][j] = mat._data[i][j];
-        }
-    }
+    _data.assign(mat._data.begin(), mat._data.end());
     return *this;
 }
 
 Matrix Matrix::operator+(const Matrix &mat) const {
-    if (_height != mat._height || _length != mat._length) {
-        std::cout << "Matrix size not match. (add)" << std::endl;
-        exit(1);
-    }
-    Matrix res(_height, _length);
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            res._data[i][j] = _data[i][j] + mat._data[i][j];
-        }
-    }
+    Matrix res(*this);
+    res += mat;
     return res;
 }
 
 Matrix &Matrix::operator+=(const Matrix &mat) {
-    if (_height != mat._height || _length != mat._length) {
-        std::cout << "Matrix size not match. (add)" << std::endl;
+    if (_row != mat._row || _col != mat._col) {
+        std::cerr << "Matrix size not match: can't perform addition between "
+                  << "(" << _row << ", " << _col << ") and "
+                  << "(" << mat._row << ", " << mat._col << ")" << std::endl;
         exit(1);
     }
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            _data[i][j] += mat._data[i][j];
-        }
+    for (int i = 0; i < _data.size(); i++) {
+        _data[i] += mat._data[i];
     }
     return *this;
 }
 
 Matrix Matrix::operator-(const Matrix &mat) const {
-    if (_height != mat._height || _length != mat._length) {
-        std::cout << "Matrix size not match. (subtract)" << std::endl;
-        exit(1);
-    }
-    Matrix res(_height, _length);
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            res._data[i][j] = _data[i][j] - mat._data[i][j];
-        }
-    }
+    Matrix res(*this);
+    res -= mat;
     return res;
 }
 
 Matrix &Matrix::operator-=(const Matrix &mat) {
-    if (_height != mat._height || _length != mat._length) {
-        std::cout << "Matrix size not match. (subtract)" << std::endl;
+    if (_row != mat._row || _col != mat._col) {
+        std::cerr << "Matrix size not match: can't perform subtraction between "
+                  << "(" << _row << ", " << _col << ") and "
+                  << "(" << mat._row << ", " << mat._col << ")" << std::endl;
         exit(1);
     }
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            _data[i][j] -= mat._data[i][j];
-        }
+    for (int i = 0; i < _data.size(); i++) {
+        _data[i] -= mat._data[i];
     }
     return *this;
 }
 
 Matrix Matrix::operator*(const Matrix &mat) const {
-    if (_length != mat._height) {
-        std::cout << "Matrix size not match. (multiply)" << std::endl;
+    if (_col != mat._row) {
+        std::cerr << "Matrix size not match: can't perform matrix multiplication between "
+                  << "(" << _row << ", " << _col << ") and "
+                  << "(" << mat._row << ", " << mat._col << ")" << std::endl;
         exit(1);
     }
-    Matrix res(_height, mat._length);
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < mat._length; j++) {
-            res._data[i][j] = 0;
-            for (int k = 0; k < _length; k++) {
-                res._data[i][j] += _data[i][k] * mat._data[k][j];
+    Matrix res(_row, mat._col);
+    for (int i = 0; i < _row; i++) {
+        for (int j = 0; j < mat._col; j++) {
+            for (int k = 0; k < _col; k++) {
+                res(i, j) += this->operator()(i, k) * mat(k, j);
             }
         }
     }
@@ -194,153 +154,103 @@ Matrix Matrix::operator*(const Matrix &mat) const {
 }
 
 Matrix Matrix::operator*(const double &val) const {
-    Matrix res(_height, _length);
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            res._data[i][j] = _data[i][j] * val;
-        }
-    }
+    Matrix res(*this);
+    res *= val;
     return res;
 }
 
 Matrix &Matrix::operator*=(const double &val) {
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            _data[i][j] *= val;
-        }
+    for (double &i: _data) {
+        i *= val;
     }
     return *this;
 }
 
 Matrix Matrix::operator/(const double &val) const {
-    Matrix res(_height, _length);
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            res._data[i][j] = _data[i][j] / val;
-        }
-    }
+    Matrix res(*this);
+    res /= val;
     return res;
 }
 
 Matrix &Matrix::operator/=(const double &val) {
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            _data[i][j] /= val;
-        }
+    for (double &i: _data) {
+        i /= val;
     }
     return *this;
-}
-
-double *Matrix::operator[](int h_idx) {
-    return _data[h_idx];
-}
-
-const double *Matrix::operator[](int h_idx) const {
-    return _data[h_idx];
 }
 
 void Matrix::randomize(double min, double max) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<double> dis(min, max);
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            _data[i][j] = dis(gen);
-        }
+    for (double &i: _data) {
+        i = dis(gen);
     }
 }
 
 void Matrix::perform(double (*f)(double)) {
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            _data[i][j] = f(_data[i][j]);
-        }
+    for (double &i: _data) {
+        i = f(i);
     }
 }
 
 Matrix Matrix::hadamard(const Matrix &mat) const {
-    if (_height != mat._height || _length != mat._length) {
-        std::cout << "Matrix size not match. (hadamard)" << std::endl;
+    if (_row != mat._row || _col != mat._col) {
+        std::cerr << "Matrix size not match: can't perform hadamard product between "
+                  << "(" << _row << ", " << _col << ") and "
+                  << "(" << mat._row << ", " << mat._col << ")" << std::endl;
         exit(1);
     }
-    Matrix res(_height, _length);
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            res._data[i][j] = _data[i][j] * mat._data[i][j];
-        }
+    Matrix res(*this);
+    for (int i = 0; i < _data.size(); i++) {
+        res._data[i] *= mat._data[i];
     }
     return res;
 }
 
 double Matrix::max() const {
-    double max_val = _data[0][0];
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            if (_data[i][j] > max_val) {
-                max_val = _data[i][j];
-            }
-        }
-    }
-    return max_val;
+    return *std::max_element(_data.begin(), _data.end());
 }
 
 double Matrix::min() const {
-    double min_val = _data[0][0];
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            if (_data[i][j] < min_val) {
-                min_val = _data[i][j];
-            }
-        }
-    }
-    return min_val;
+    return *std::min_element(_data.begin(), _data.end());
 }
 
 std::pair<int, int> Matrix::argmax() const {
-    double max_val = _data[0][0];
-    int max_idx = 0;
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            if (_data[i][j] > max_val) {
-                max_val = _data[i][j];
-                max_idx = i * _length + j;
-            }
-        }
-    }
-    return {max_idx / _length, max_idx % _length};
+    int max_idx = int(std::max_element(_data.begin(), _data.end()) - _data.begin());
+    return {max_idx / _col, max_idx % _col};
 }
 
 std::pair<int, int> Matrix::argmin() const {
-    double min_val = _data[0][0];
-    int min_idx = 0;
-    for (int i = 0; i < _height; i++) {
-        for (int j = 0; j < _length; j++) {
-            if (_data[i][j] < min_val) {
-                min_val = _data[i][j];
-                min_idx = i * _length + j;
-            }
-        }
-    }
-    return {min_idx / _length, min_idx % _length};
+    int min_idx = int(std::min_element(_data.begin(), _data.end()) - _data.begin());
+    return {min_idx / _col, min_idx % _col};
 }
 
-Matrix Matrix::reshape(int height, int length) const {
-    if (_height * _length != height * length) {
-        std::cout << "Matrix size not match. (reshape)" << std::endl;
+Matrix Matrix::reshape(int row, int col) const {
+    if (_row * _col != row * col) {
+        std::cerr << "Matrix size not match: can't reshape "
+                  << "(" << _row << ", " << _col << ") to "
+                  << "(" << row << ", " << col << ")" << std::endl;
         exit(1);
     }
-    Matrix res(height, length);
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < length; j++) {
-            res[i][j] = _data[i * length + j / _length][j % _length];
-        }
-    }
+    Matrix res(*this);
+    res._row = row;
+    res._col = col;
     return res;
 }
 
+double Matrix::operator()(int r, int c) const {
+    return _data[r * _col + c];
+}
 
+double &Matrix::operator()(int r, int c) {
+    return _data[r * _col + c];
+}
 
+Matrix operator*(const double &val, const Matrix &mat) {
+    return mat * val;
+}
 
-
-
-
+Matrix make_matrix(const std::vector<std::vector<double>> &data) {
+    return Matrix(data);
+}

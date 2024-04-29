@@ -16,8 +16,8 @@ load_polynomial(int size, double(*f)(double), double min, double max) {
     for (int i = 0; i < size; i++) {
         double x = distribution(generator);
         double y = f(x);
-        input.emplace_back(1, 1, x);
-        output.emplace_back(1, 1, y);
+        input.push_back(make_matrix({{x}}));
+        output.push_back(make_matrix({{y}}));
     }
     return {input, output};
 }

@@ -23,12 +23,12 @@ std::pair<std::vector<Matrix>, std::vector<Matrix>> load_testcase(const std::str
         Matrix label(label_shape.first, label_shape.second);
         for (int j = 0; j < input_shape.first; j++) {
             for (int k = 0; k < input_shape.second; k++) {
-                file >> input[j][k];
+                file >> input(j, k);
             }
         }
         for (int j = 0; j < label_shape.first; j++) {
             for (int k = 0; k < label_shape.second; k++) {
-                file >> label[j][k];
+                file >> label(j, k);
             }
         }
         x.push_back(input);
@@ -60,12 +60,12 @@ void save_testcase(const std::string &filename, std::vector<Matrix> &x, std::vec
         auto &label = y[k];
         for (int i = 0; i < input_shape.first; i++) {
             for (int j = 0; j < input_shape.second; j++) {
-                file << std::fixed << std::setprecision(9) << std::left << std::setw(20) << input[i][j];
+                file << std::fixed << std::setprecision(9) << std::left << std::setw(20) << input(i, j);
             }
         }
         for (int i = 0; i < label_shape.first; i++) {
             for (int j = 0; j < label_shape.second; j++) {
-                file << std::fixed << std::setprecision(9) << std::left << std::setw(20) << label[i][j];
+                file << std::fixed << std::setprecision(9) << std::left << std::setw(20) << label(i, j);
             }
         }
         file << '\n';

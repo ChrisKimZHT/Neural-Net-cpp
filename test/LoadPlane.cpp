@@ -19,13 +19,8 @@ std::pair<std::vector<Matrix>, std::vector<Matrix>> circle_type(int size) {
         double degree = 2.0 * i / size * 2 * M_PI;
         double x = cos(degree) + 0.5 * distribution(generator);
         double y = sin(degree) + 0.5 * distribution(generator);
-        Matrix dot(2, 1);
-        Matrix label(1, 1);
-        dot[0][0] = x;
-        dot[1][0] = y;
-        label[0][0] = 1;
-        input.emplace_back(dot);
-        output.emplace_back(label);
+        input.push_back(make_matrix({{x}, {y}}));
+        output.push_back(make_matrix({{1}}));
     }
 
     // outer ring
@@ -33,13 +28,8 @@ std::pair<std::vector<Matrix>, std::vector<Matrix>> circle_type(int size) {
         double degree = 2.0 * i / size * 2 * M_PI;
         double x = 4 * cos(degree) + 0.5 * distribution(generator);
         double y = 4 * sin(degree) + 0.5 * distribution(generator);
-        Matrix dot(2, 1);
-        Matrix label(1, 1);
-        dot[0][0] = x;
-        dot[1][0] = y;
-        label[0][0] = -1;
-        input.emplace_back(dot);
-        output.emplace_back(label);
+        input.push_back(make_matrix({{x}, {y}}));
+        output.push_back(make_matrix({{-1}}));
     }
     return {input, output};
 }
@@ -58,26 +48,16 @@ std::pair<std::vector<Matrix>, std::vector<Matrix>> cluster_type(int size) {
     for (int i = 0; i < size / 2; i++) {
         double x = distribution(generator);
         double y = distribution(generator);
-        Matrix dot(2, 1);
-        Matrix label(1, 1);
-        dot[0][0] = x;
-        dot[1][0] = y;
-        label[0][0] = 1;
-        input.emplace_back(dot);
-        output.emplace_back(label);
+        input.push_back(make_matrix({{x}, {y}}));
+        output.push_back(make_matrix({{1}}));
     }
 
     // cluster 2
     for (int i = 0; i < size / 2; i++) {
         double x = 4 + distribution(generator);
         double y = 4 + distribution(generator);
-        Matrix dot(2, 1);
-        Matrix label(1, 1);
-        dot[0][0] = x;
-        dot[1][0] = y;
-        label[0][0] = -1;
-        input.emplace_back(dot);
-        output.emplace_back(label);
+        input.push_back(make_matrix({{x}, {y}}));
+        output.push_back(make_matrix({{-1}}));
     }
 
     return {input, output};
@@ -96,17 +76,8 @@ std::pair<std::vector<Matrix>, std::vector<Matrix>> window_type(int size) {
     for (int i = 0; i < size; i++) {
         double x = distribution(generator);
         double y = distribution(generator);
-        Matrix dot(2, 1);
-        Matrix label(1, 1);
-        dot[0][0] = x;
-        dot[1][0] = y;
-        if (x * y >= 0) {
-            label[0][0] = 1;
-        } else {
-            label[0][0] = -1;
-        }
-        input.emplace_back(dot);
-        output.emplace_back(label);
+        input.push_back(make_matrix({{x}, {y}}));
+        output.push_back(make_matrix({{x * y >= 0 ? 1.0 : -1.0}}));
     }
 
     return {input, output};
@@ -127,13 +98,8 @@ std::pair<std::vector<Matrix>, std::vector<Matrix>> whirlpool_type(int size) {
         double degree = 4.0 * i / size * 2 * M_PI;
         double x = degree * cos(degree) + distribution(generator);
         double y = degree * sin(degree) + distribution(generator);
-        Matrix dot(2, 1);
-        Matrix label(1, 1);
-        dot[0][0] = x;
-        dot[1][0] = y;
-        label[0][0] = 1;
-        input.emplace_back(dot);
-        output.emplace_back(label);
+        input.push_back(make_matrix({{x}, {y}}));
+        output.push_back(make_matrix({{1}}));
     }
 
     // type -1
@@ -141,13 +107,8 @@ std::pair<std::vector<Matrix>, std::vector<Matrix>> whirlpool_type(int size) {
         double degree = 4.0 * i / size * 2 * M_PI;
         double x = degree * cos(degree + 2 * M_PI) + distribution(generator);
         double y = degree * sin(degree + 2 * M_PI) + distribution(generator);
-        Matrix dot(2, 1);
-        Matrix label(1, 1);
-        dot[0][0] = -x;
-        dot[1][0] = -y;
-        label[0][0] = -1;
-        input.emplace_back(dot);
-        output.emplace_back(label);
+        input.push_back(make_matrix({{-x}, {-y}}));
+        output.push_back(make_matrix({{-1}}));
     }
 
     return {input, output};
