@@ -13,7 +13,7 @@ def convert_mnist_to_txt(sample_rate: float = 1.0):
 
     with open('../mnist_train.txt', 'w') as f:
         f.write(f"{x_train.shape[0]}\n")
-        f.write("784 1\n")
+        f.write("28 28\n")
         f.write("10 1\n")
         for i in tqdm(range(x_train.shape[0])):
             x = x_train[i].reshape(-1) / 255.0
@@ -22,7 +22,7 @@ def convert_mnist_to_txt(sample_rate: float = 1.0):
 
     with open('../mnist_test.txt', 'w') as f:
         f.write(f"{x_test.shape[0]}\n")
-        f.write("784 1\n")
+        f.write("28 28\n")
         f.write("10 1\n")
         for i in tqdm(range(x_test.shape[0])):
             x = x_test[i].reshape(-1) / 255.0
