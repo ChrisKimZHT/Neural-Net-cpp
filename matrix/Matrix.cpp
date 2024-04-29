@@ -2,6 +2,7 @@
 // Created by ChrisKim on 2023/6/5.
 //
 
+#include <iomanip>
 #include "Matrix.h"
 
 Matrix::Matrix() {
@@ -89,7 +90,7 @@ void Matrix::print() const {
         for (int j = 0; j < _length; j++) {
             if (j)
                 std::cout << ", ";
-            std::cout << _data[i][j];
+            std::cout << std::fixed << std::setprecision(9) << _data[i][j];
         }
         std::cout << "]\n";
     }
@@ -266,6 +267,72 @@ Matrix Matrix::hadamard(const Matrix &mat) const {
     for (int i = 0; i < _height; i++) {
         for (int j = 0; j < _length; j++) {
             res._data[i][j] = _data[i][j] * mat._data[i][j];
+        }
+    }
+    return res;
+}
+
+double Matrix::max() const {
+    double max_val = _data[0][0];
+    for (int i = 0; i < _height; i++) {
+        for (int j = 0; j < _length; j++) {
+            if (_data[i][j] > max_val) {
+                max_val = _data[i][j];
+            }
+        }
+    }
+    return max_val;
+}
+
+double Matrix::min() const {
+    double min_val = _data[0][0];
+    for (int i = 0; i < _height; i++) {
+        for (int j = 0; j < _length; j++) {
+            if (_data[i][j] < min_val) {
+                min_val = _data[i][j];
+            }
+        }
+    }
+    return min_val;
+}
+
+std::pair<int, int> Matrix::argmax() const {
+    double max_val = _data[0][0];
+    int max_idx = 0;
+    for (int i = 0; i < _height; i++) {
+        for (int j = 0; j < _length; j++) {
+            if (_data[i][j] > max_val) {
+                max_val = _data[i][j];
+                max_idx = i * _length + j;
+            }
+        }
+    }
+    return {max_idx / _length, max_idx % _length};
+}
+
+std::pair<int, int> Matrix::argmin() const {
+    double min_val = _data[0][0];
+    int min_idx = 0;
+    for (int i = 0; i < _height; i++) {
+        for (int j = 0; j < _length; j++) {
+            if (_data[i][j] < min_val) {
+                min_val = _data[i][j];
+                min_idx = i * _length + j;
+            }
+        }
+    }
+    return {min_idx / _length, min_idx % _length};
+}
+
+Matrix Matrix::reshape(int height, int length) const {
+    if (_height * _length != height * length) {
+        std::cout << "Matrix size not match. (reshape)" << std::endl;
+        exit(1);
+    }
+    Matrix res(height, length);
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < length; j++) {
+            res[i][j] = _data[i * length + j / _length][j % _length];
         }
     }
     return res;

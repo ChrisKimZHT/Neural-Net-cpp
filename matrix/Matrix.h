@@ -62,6 +62,16 @@ public:
 
     [[nodiscard]] Matrix hadamard(const Matrix &mat) const;
 
+    double max() const;
+
+    double min() const;
+
+    std::pair<int, int> argmax() const;
+
+    std::pair<int, int> argmin() const;
+
+    Matrix reshape(int height, int length) const;
+
     double *operator[](int h_idx);
 
     const double *operator[](int h_idx) const;
