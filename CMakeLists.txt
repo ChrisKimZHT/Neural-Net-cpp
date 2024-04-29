@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(
         ANN
+        ANN.h
         main.cpp
 
         matrix/Matrix.cpp

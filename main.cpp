@@ -1,12 +1,5 @@
 #include <vector>
-#include "network/Network.h"
-#include "layer/FullyConnectedLayer.h"
-#include "layer/ActivationLayer.h"
-#include "activation/Sigmoid.h"
-#include "loss/MeanSquaredError.h"
-#include "test/TestCaseFile.h"
-#include "layer/ConvolutionalLayer.h"
-#include "layer/FlattenLayer.h"
+#include "ANN.h"
 
 int main() {
     std::ios::sync_with_stdio(false);
