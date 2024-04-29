@@ -46,3 +46,7 @@ add_executable(
 )
 
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+
+if (CMAKE_BUILD_TYPE MATCHES Release)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -O3")
+endif ()
