@@ -38,7 +38,7 @@ public:
 
     void print(int precision = 2) const;
 
-    void randomize(double min = -1.0, double max = 1.0);
+    void randomize(double min = -0.5, double max = 0.5);
 
     void perform(double(*f)(double));
 
