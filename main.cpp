@@ -5,16 +5,19 @@
 #include "activation/sigmoid.h"
 #include "loss/MeanSquaredError.h"
 #include "test/TestCaseFile.h"
+#include "layer/ConvolutionalLayer.h"
+#include "layer/FlattenLayer.h"
 
 int main() {
     std::ios::sync_with_stdio(false);
 
     Network network({
-        new FullyConnectedLayer(28 * 28, 100),
+        new ConvolutionalLayer({28, 28}, {3, 3}),
         new ActivationLayer(new Sigmoid),
-        new FullyConnectedLayer(100, 50),
+        new FlattenLayer,
+        new FullyConnectedLayer(26 * 26, 100),
         new ActivationLayer(new Sigmoid),
-        new FullyConnectedLayer(50, 10),
+        new FullyConnectedLayer(100, 10),
         new ActivationLayer(new Sigmoid)
     });
 

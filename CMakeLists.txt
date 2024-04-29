@@ -45,6 +45,8 @@ add_executable(
         test/TestCaseFile.h
         test/SavePlaneMesh.cpp
         test/SavePlaneMesh.h
+        layer/FlattenLayer.cpp
+        layer/FlattenLayer.h
 )
 
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
