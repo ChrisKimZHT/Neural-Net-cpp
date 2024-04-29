@@ -208,6 +208,29 @@ Matrix Matrix::hadamard(const Matrix &mat) const {
     return res;
 }
 
+Matrix Matrix::convolution(const Matrix &mat, bool valid) const {
+    // correlation between this matrix and mat matrix
+    // valid: if true, return valid convolution, else return full convolution
+    int row = valid ? _row - mat._row + 1 : _row + mat._row - 1;
+    int col = valid ? _col - mat._col + 1 : _col + mat._col - 1;
+    Matrix res(row, col);
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            // calculate convolution at (i, j)
+            double sum = 0;
+            for (int k = 0; k < mat._row; k++) {
+                for (int l = 0; l < mat._col; l++) {
+                    if (i + k >= 0 && i + k < 0 + _row && j + l >= 0 && j + l < 0 + _col) {
+                        sum += this->operator()(i + k, j + l) * mat(k, l);
+                    }
+                }
+            }
+            res(i, j) = sum;
+        }
+    }
+    return res;
+}
+
 double Matrix::max() const {
     return *std::max_element(_data.begin(), _data.end());
 }

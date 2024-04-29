@@ -68,6 +68,8 @@ public:
 
     [[nodiscard]] Matrix hadamard(const Matrix &mat) const;
 
+    [[nodiscard]] Matrix convolution(const Matrix &mat, bool valid = true) const;
+
     [[nodiscard]] double max() const;
 
     [[nodiscard]] double min() const;
