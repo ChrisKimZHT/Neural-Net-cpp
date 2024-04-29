@@ -3,6 +3,7 @@
 //
 
 #include <iomanip>
+#include <chrono>
 #include "Network.h"
 
 void Network::add_layer(Layer *layer) {
@@ -16,6 +17,7 @@ double Network::train(const std::vector<Matrix> &input, const std::vector<Matrix
     double loss = 0;
     for (int e = 0; e < epochs; e++) {
         loss = 0;
+        auto start = std::chrono::system_clock::now();
         for (int i = 0; i < input.size(); i++) {
             Matrix output = predict(input[i]);
             loss += loss_function->loss(output, target[i]);
@@ -28,7 +30,9 @@ double Network::train(const std::vector<Matrix> &input, const std::vector<Matrix
                       << std::left << std::setw(8) << data_size
                       << "loss: " << std::left << std::setw(12) << std::setprecision(9) << loss / (i + 1) << std::flush;
         }
-        std::cout << std::endl;
+        auto end = std::chrono::system_clock::now();
+        std::cout << " (" << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms)"
+                  << std::endl;
     }
     return loss / data_size;
 }
