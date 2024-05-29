@@ -23,6 +23,10 @@ add_executable(
         layer/ActivationLayer.h
         layer/ConvolutionalLayer.cpp
         layer/ConvolutionalLayer.h
+        layer/FlattenLayer.cpp
+        layer/FlattenLayer.h
+        layer/DropoutLayer.cpp
+        layer/DropoutLayer.h
 
         loss/LossFunction.cpp
         loss/LossFunction.h
@@ -46,8 +50,6 @@ add_executable(
         test/TestCaseFile.h
         test/SavePlaneMesh.cpp
         test/SavePlaneMesh.h
-        layer/FlattenLayer.cpp
-        layer/FlattenLayer.h
 )
 
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
