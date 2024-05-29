@@ -14,6 +14,7 @@
 #include "layer/ConvolutionalLayer.h"
 #include "layer/FullyConnectedLayer.h"
 #include "layer/ActivationLayer.h"
+#include "layer/DropoutLayer.h"
 
 #include "loss/LossFunction.h"
 #include "loss/MeanSquaredError.h"
