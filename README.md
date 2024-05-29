@@ -9,7 +9,8 @@ C++ 实现的人工神经网络，仅用于个人练习。
   - 卷积层 ConvolutionalLayer (暂时只支持单通道输入输出)
   - 展平层 FlattenLayer
   - 激活层 ActivationLayer
-
+  - 随机失活层 DropoutLayer
+  
 - 激活函数
   - Sigmoid
   - Tanh
