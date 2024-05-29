@@ -14,7 +14,7 @@ struct FullyConnectedLayer : public Layer {
 
     FullyConnectedLayer(int input_size, int output_size);
 
-    Matrix forward(const Matrix &input) override;
+    Matrix forward(const Matrix &input, bool is_eval) override;
 
     Matrix backward(const Matrix &d_output, double learning_rate) override;
 };

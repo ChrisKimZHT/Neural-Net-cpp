@@ -19,7 +19,7 @@ struct ConvolutionalLayer : public Layer {
 
     ConvolutionalLayer(std::tuple<int, int> input_shape, std::tuple<int, int> filter_shape);
 
-    Matrix forward(const Matrix &input) override;
+    Matrix forward(const Matrix &input, bool is_eval) override;
 
     Matrix backward(const Matrix &d_output, double learning_rate) override;
 };

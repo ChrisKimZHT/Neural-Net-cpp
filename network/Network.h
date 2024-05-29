@@ -24,7 +24,7 @@ public:
     double train(const std::vector<Matrix> &input, const std::vector<Matrix> &target,
                  LossFunction *loss_function, int epochs, double learning_rate);
 
-    Matrix predict(const Matrix &input);
+    Matrix predict(const Matrix &input, bool is_eval = true);
 
     double evaluate(const std::vector<Matrix> &input, const std::vector<Matrix> &target,
                     LossFunction *loss_function, bool one_hot_encoding = false);

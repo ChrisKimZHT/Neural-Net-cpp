@@ -4,7 +4,7 @@
 
 #include "FlattenLayer.h"
 
-Matrix FlattenLayer::forward(const Matrix &input) {
+Matrix FlattenLayer::forward(const Matrix &input, bool is_eval) {
     this->input = input;
     return input.reshape(input.row() * input.col(), 1);
 }

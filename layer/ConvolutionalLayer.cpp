@@ -21,7 +21,7 @@ ConvolutionalLayer::ConvolutionalLayer(std::tuple<int, int> input_shape, std::tu
     bias = random(0, 0);
 }
 
-Matrix ConvolutionalLayer::forward(const Matrix &input) {
+Matrix ConvolutionalLayer::forward(const Matrix &input, bool is_eval) {
     this->input = input;
     Matrix output = input.convolution(weights);
     output += bias;

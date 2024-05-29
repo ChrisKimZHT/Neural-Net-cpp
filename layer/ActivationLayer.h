@@ -14,7 +14,7 @@ struct ActivationLayer : public Layer {
 
     explicit ActivationLayer(ActivationFunction *activation_function);
 
-    Matrix forward(const Matrix &input) override;
+    Matrix forward(const Matrix &input, bool is_eval) override;
 
     Matrix backward(const Matrix &d_output, double learning_rate) override;
 };

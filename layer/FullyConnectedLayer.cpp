@@ -12,7 +12,7 @@ FullyConnectedLayer::FullyConnectedLayer(int input_size, int output_size) :
     biases.randomize();
 }
 
-Matrix FullyConnectedLayer::forward(const Matrix &input) {
+Matrix FullyConnectedLayer::forward(const Matrix &input, bool is_eval) {
     this->input = input;
     return weights * input + biases;
 }

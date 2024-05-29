@@ -8,7 +8,7 @@ ActivationLayer::ActivationLayer(ActivationFunction *activation_function) {
     this->activation_function = activation_function;
 }
 
-Matrix ActivationLayer::forward(const Matrix &input) {
+Matrix ActivationLayer::forward(const Matrix &input, bool is_eval) {
     this->input = input;
     return activation_function->activate(input);
 }

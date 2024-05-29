@@ -8,7 +8,10 @@ DropoutLayer::DropoutLayer(double dropout_rate) {
     this->dropout_rate = dropout_rate;
 }
 
-Matrix DropoutLayer::forward(const Matrix &input) {
+Matrix DropoutLayer::forward(const Matrix &input, bool is_eval) {
+    if (is_eval) {
+        return input;
+    }
     mask = Matrix(input.row(), input.col());
     mask.randomize(0, 1);
     for (int i = 0; i < input.row(); i++) {

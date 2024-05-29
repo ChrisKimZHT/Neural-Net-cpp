@@ -10,9 +10,9 @@
 struct Layer {
     Matrix input;
 
-    virtual Matrix forward(const Matrix &input) = 0;
+    virtual Matrix forward(const Matrix &input, bool is_eval) = 0;
 
-    virtual Matrix backward(const Matrix &d_output, double learning_rate) = 0;
+    virtual Matrix backward(const Matrix &d_output, double is_eval) = 0;
 };
 
 

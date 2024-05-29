@@ -9,7 +9,7 @@
 #include "Layer.h"
 
 struct FlattenLayer : public Layer {
-    Matrix forward(const Matrix &input) override;
+    Matrix forward(const Matrix &input, bool is_eval) override;
 
     Matrix backward(const Matrix &d_output, double learning_rate) override;
 };

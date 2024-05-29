@@ -19,7 +19,7 @@ double Network::train(const std::vector<Matrix> &input, const std::vector<Matrix
         loss = 0;
         auto start = std::chrono::system_clock::now();
         for (int i = 0; i < input.size(); i++) {
-            Matrix output = predict(input[i]);
+            Matrix output = predict(input[i], false);
             loss += loss_function->loss(output, target[i]);
             Matrix d_output = loss_function->derivative(output, target[i]);
             for (auto it = layers.rbegin(); it != layers.rend(); ++it) {
@@ -37,10 +37,10 @@ double Network::train(const std::vector<Matrix> &input, const std::vector<Matrix
     return loss / data_size;
 }
 
-Matrix Network::predict(const Matrix &input) {
+Matrix Network::predict(const Matrix &input, bool is_eval) {
     Matrix output = input;
     for (auto &layer: layers) {
-        output = layer->forward(output);
+        output = layer->forward(output, is_eval);
     }
     return output;
 }
@@ -52,7 +52,7 @@ double Network::evaluate(const std::vector<Matrix> &input, const std::vector<Mat
     if (!one_hot_encoding) {
         double loss = 0;
         for (int i = 0; i < input.size(); i++) {
-            Matrix output = predict(input[i]);
+            Matrix output = predict(input[i], true);
             loss += loss_function->loss(output, target[i]);
             std::cout << "\r"
                       << std::right << std::setw(8) << i + 1 << "/"
@@ -64,7 +64,7 @@ double Network::evaluate(const std::vector<Matrix> &input, const std::vector<Mat
     } else {
         int correct = 0;
         for (int i = 0; i < input.size(); i++) {
-            Matrix output = predict(input[i]);
+            Matrix output = predict(input[i], true);
             if (output.argmax().first == target[i].argmax().first) {
                 correct++;
             }
