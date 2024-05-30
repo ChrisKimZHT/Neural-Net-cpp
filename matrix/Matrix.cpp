@@ -194,6 +194,10 @@ Matrix Matrix::operator/(const double &val) const {
 }
 
 Matrix &Matrix::operator/=(const double &val) {
+    if (val == 0) {
+        std::cerr << "Division by zero error" << std::endl;
+        exit(1);
+    }
     for (double &i: _data) {
         i /= val;
     }
