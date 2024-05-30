@@ -70,6 +70,8 @@ public:
 
     Matrix &operator/=(const double &val);
 
+    bool operator==(const Matrix &mat) const;
+
     double operator()(int r, int c) const;
 
     double &operator()(int r, int c);

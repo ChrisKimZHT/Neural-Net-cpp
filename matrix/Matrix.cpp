@@ -200,6 +200,18 @@ Matrix &Matrix::operator/=(const double &val) {
     return *this;
 }
 
+bool Matrix::operator==(const Matrix &mat) const {
+    if (_row != mat._row || _col != mat._col) {
+        return false;
+    }
+    for (int i = 0; i < _data.size(); i++) {
+        if (_data[i] != mat._data[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void Matrix::randomize(double min, double max) {
     std::random_device rd;
     std::mt19937 gen(rd());
