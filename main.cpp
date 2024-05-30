@@ -10,10 +10,8 @@ int main() {
         new ConvolutionalLayer({26, 26}, {3, 3}),
         new ActivationLayer(new Sigmoid),
         new FlattenLayer,
-        new DropoutLayer(0.1),
         new FullyConnectedLayer(24 * 24, 100),
         new ActivationLayer(new Sigmoid),
-        new DropoutLayer(0.1),
         new FullyConnectedLayer(100, 10),
         new ActivationLayer(new Sigmoid)
     });
