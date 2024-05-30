@@ -17,9 +17,8 @@ int main() {
         new FullyConnectedLayer(100, 10),
         new ActivationLayer(new Sigmoid)
     });
-
-    auto [train_input, train_output] = load_testcase("../mnist_train.txt");
-    auto [test_input, test_output] = load_testcase("../mnist_test.txt");
+    auto [train_input, train_output] = load_binary_testcase("../mnist_train.bin");
+    auto [test_input, test_output] = load_binary_testcase("../mnist_test.bin");
 
     network.train(train_input, train_output, new MeanSquaredError, 80, 0.1);
     network.evaluate(test_input, test_output, new MeanSquaredError, true);
