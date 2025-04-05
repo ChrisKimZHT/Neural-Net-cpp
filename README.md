@@ -126,8 +126,8 @@ save_plane_mesh_with_data("../test.txt", "../mesh.txt", test_input, test_output,
 
 | Cluster                                                      | Window                                                       | Circle                                                       | Whirlpool                                                    |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ![](https://assets.zouht.com/img/md/Neural-Net-cpp-cluster_data.png) | ![](https://assets.zouht.com/img/md/Neural-Net-cpp-window_data.png) | ![](https://assets.zouht.com/img/md/Neural-Net-cpp-circle_data.png) | ![](https://assets.zouht.com/img/md/Neural-Net-cpp-whirlpool_data.png) |
-| ![](https://assets.zouht.com/img/md/Neural-Net-cpp-cluster_mesh.png) | ![](https://assets.zouht.com/img/md/Neural-Net-cpp-window_mesh.png) | ![](https://assets.zouht.com/img/md/Neural-Net-cpp-circle_mesh.png) | ![](https://assets.zouht.com/img/md/Neural-Net-cpp-whirlpool_mesh.png) |
+| ![](./images/Neural-Net-cpp-cluster_data.png) | ![](./images/Neural-Net-cpp-window_data.png) | ![](./images/Neural-Net-cpp-circle_data.png) | ![](./images/Neural-Net-cpp-whirlpool_data.png) |
+| ![](./images/Neural-Net-cpp-cluster_mesh.png) | ![](./images/Neural-Net-cpp-window_mesh.png) | ![](./images/Neural-Net-cpp-circle_mesh.png) | ![](./images/Neural-Net-cpp-whirlpool_mesh.png) |
 
 ### 多项式拟合
 
